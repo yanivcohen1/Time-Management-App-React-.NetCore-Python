@@ -71,7 +71,7 @@ const App: React.FC = () => {
                 <Link to="/admin">Admin</Link>|{" "}
               </>
             )}
-          <Link to="/contact?id=1">Contact</Link> |{" "}
+          <Link to="/contact?id=1&name=yan">Contact</Link> |{" "}
           <Link to="/about/1">About</Link> |{" "}
         </nav>
   
