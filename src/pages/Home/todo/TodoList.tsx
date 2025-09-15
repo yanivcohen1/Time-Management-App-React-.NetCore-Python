@@ -1,8 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, useMemo } from 'react';
 import { getData, saveData } from "../../../utils/storage"; // for data localstorage
 import { useAppContext } from "../../../context/AppContext"; // for events updates
-import MyModal from '../../../utils/Modal';
-import '../../../utils/Modal.css';
 interface Todo {
   id: string;
   text: string;
@@ -28,6 +26,14 @@ const TodoList: React.FC = () => {
   };
 
   const [todos, setTodos] = useState<Todo[]>(initTodo);
+  const [query, setQuery] = useState('');
+
+  // Memoize filtered results for performance
+  const filtered = useMemo(() => {
+    const lower = query.toLowerCase();
+    if (!lower) return todos;
+    return todos.filter(item => item.text.toLowerCase().includes(lower));
+  }, [query, todos]);
 
   // Save todos to localStorage
   useEffect(() => {
@@ -84,8 +90,15 @@ const TodoList: React.FC = () => {
           />
           <button className="add" onClick={handleAdd} style={styles.addButton}>Add</button>
         </div>
+        <input
+          type="text"
+          placeholder="Type to search..."
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          style={{ padding: '8px', width: '100%', boxSizing: 'border-box' }}
+        />
         <ul style={styles.list}>
-          {todos.map((todo) => (
+          {filtered.map((todo) => (
             <li key={todo.id} style={styles.listItem}>
               {todo.text}
               <button
