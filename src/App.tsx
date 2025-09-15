@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from 'react-router-dom';
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import LoadingBar from 'react-top-loading-bar';
 import Home from "./pages/Home/Home";
@@ -51,28 +51,28 @@ const App: React.FC = () => {
     <>
       <Router>
         <nav style={{ padding: '1rem' }}>
-          <Link to="/home">Home</Link> |{" "}
+          <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined}>Home</NavLink> |{" "}
           {!isAuthenticated ? (
               <>
-                <Link to="/login">Login</Link> |{" "}
+                <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined}>Login</NavLink> |{" "}
               </>
             ) : (
               <>
-                <Link to="/logout">Logout</Link> |{" "}
+                <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined}>Logout</NavLink> |{" "}
               </>
             )}
           {isAuthenticated && (role === 'user' || role === 'admin') ? (
               <>
-                <Link to="/user">User</Link> |{" "}
+                <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined}>User</NavLink> |{" "}
               </>
             ) : null}
           {isAuthenticated && role === 'admin' && (
               <>
-                <Link to="/admin">Admin</Link>|{" "}
+                <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined}>Admin</NavLink>|{" "}
               </>
             )}
-          <Link to="/contact?id=1&name=yan">Contact</Link> |{" "}
-          <Link to="/about/1">About</Link> |{" "}
+          <NavLink to="/contact?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined}>Contact</NavLink> |{" "}
+          <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined}>About</NavLink> |{" "}
         </nav>
   
         <Routes>
