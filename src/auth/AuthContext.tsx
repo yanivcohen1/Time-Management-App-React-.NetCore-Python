@@ -1,5 +1,6 @@
 // auth/AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
+import { saveData, getData } from '../utils/storage';
 
 type UserRole = 'admin' | 'user' | 'guest';
 
@@ -20,17 +21,25 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [role, setRole] = useState<UserRole>('guest');
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+        const stored = getData<{ isAuthenticated: boolean; role: UserRole }>('auth');
+        return stored ? stored.isAuthenticated : false;
+    });
+    const [role, setRole] = useState<UserRole>(() => {
+        const stored = getData<{ isAuthenticated: boolean; role: UserRole }>('auth');
+        return stored ? stored.role : 'guest';
+    });
 
     const login = (newRole: UserRole) => {
         setIsAuthenticated(true);
         setRole(newRole);
+        saveData('auth', { isAuthenticated: true, role: newRole });
     };
 
     const logout = () => {
         setIsAuthenticated(false);
         setRole('guest');
+        saveData('auth', { isAuthenticated: false, role: 'guest' });
     };
 
     return (
