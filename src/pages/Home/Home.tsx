@@ -18,7 +18,7 @@ const Home: React.FC = () => {
   const [i, setI] = useState(parseInt(user?.split(" ").pop() || "0") || 0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const inputRef = useRef<HTMLHeadingElement | null>(null);
+  const inputRef = useRef<HTMLDivElement | null>(null);
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
   const [open, setOpen] = useState(false);
@@ -95,9 +95,9 @@ const Home: React.FC = () => {
     <div style={{ width: '100%' }}>
       <div style={{width: '400px', margin: '0 auto', backgroundColor: '#eee', padding: '16px', borderRadius: '8px'}}>
         <h2 style={{ textAlign: 'center' }}><FontAwesomeIcon icon={faHome} /> Home Page</h2>
-        <div>
-          <h6 ref={inputRef}>User: {user ?? "No user logged in"}</h6>
-          <button onClick={() => updateI()}><FontAwesomeIcon icon={faUser} /> Set AppContext User to Alice</button>
+        <div ref={inputRef}>
+          <h6>User: {user ?? "No user logged in"}</h6>
+          <button  onClick={() => updateI()}><FontAwesomeIcon icon={faUser} /> Set AppContext User to Alice</button>
         </div>
   
         <div>
