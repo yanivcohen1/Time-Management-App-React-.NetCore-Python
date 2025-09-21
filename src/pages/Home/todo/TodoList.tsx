@@ -1,6 +1,8 @@
-import React, { useState, useEffect, ChangeEvent, useMemo } from 'react';
+import React, { useState, useEffect, ChangeEvent, useMemo, useRef, createRef } from 'react';
 import { getData, saveData } from "../../../utils/storage"; // for data localstorage
 import { useAppContext } from "../../../context/AppContext"; // for events updates
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+import "../../../animation/slide-right.css";
 interface Todo {
   id: string;
   text: string;
@@ -76,43 +78,55 @@ const TodoList: React.FC = () => {
     setTodos(filteredTodos);
   };
 
+  // Manage refs for each list item to avoid findDOMNode
+  const nodeRefs = useRef<Record<string, React.RefObject<any>>>({});
+
   return (
-    <div>
-      <div style={styles.container}>
-        <h3 style={styles.heading}>To-Do List</h3><p>User msg: {msg}</p>
-        <div style={styles.inputContainer}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-            placeholder="Enter a to-do item"
-            style={styles.input}
-          />
-          <button className="add" onClick={handleAdd} style={styles.addButton}>Add</button>
-        </div>
+    <div style={styles.container}>
+      <h3 style={styles.heading}>To-Do List</h3>
+      <p>User msg: {msg}</p>
+      <div style={styles.inputContainer}>
         <input
           type="text"
-          placeholder="Type to search..."
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          style={{ padding: '8px', width: '100%', boxSizing: 'border-box' }}
+          value={input}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+          placeholder="Enter a to-do item"
+          style={styles.input}
         />
-        <ul style={styles.list}>
-          {filtered.map((todo) => (
-            <li key={todo.id} style={styles.listItem}>
-              {todo.text}
-              <button
-                className="delete"
-                id={todo.id}
-                onClick={() => handleDelete(todo.id)}
-                style={styles.deleteButton}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
+        <button className="add" onClick={handleAdd} style={styles.addButton}>Add</button>
       </div>
+      <input
+        type="text"
+        placeholder="Type to search..."
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        style={{ padding: '8px', width: '100%', boxSizing: 'border-box' }}
+      />
+      <TransitionGroup component="ul" style={styles.list}>
+        {filtered.map(todo => {
+          // initialize ref for this item
+          let ref = nodeRefs.current[todo.id];
+          if (!ref) {
+            ref = createRef<HTMLLIElement>();
+            nodeRefs.current[todo.id] = ref;
+          }
+          return (
+            <CSSTransition key={todo.id} nodeRef={ref} timeout={300} classNames="slide">
+              <li ref={ref} style={styles.listItem}>
+                {todo.text}
+                <button
+                  className="delete"
+                  id={todo.id}
+                  onClick={() => handleDelete(todo.id)}
+                  style={styles.deleteButton}
+                >
+                  Delete
+                </button>
+              </li>
+            </CSSTransition>
+          );
+        })}
+      </TransitionGroup>
     </div>
   );
 };

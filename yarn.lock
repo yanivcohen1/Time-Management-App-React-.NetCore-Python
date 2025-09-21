@@ -6839,6 +6839,7 @@
     "react-router-dom" "^6.16.0"
     "react-scripts" "5.0.1"
     "react-top-loading-bar" "^3.0.2"
+    "react-transition-group" "^4.4.5"
     "typescript" "^5.9.2"
     "web-vitals" "^2.1.4"
 

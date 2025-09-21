@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate, Outlet } from 'react-router-dom';
+import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
+import "../../animation/slide-right.css";
 import axios from 'axios';
 import { getGlobal, setGlobal } from "../../utils/storage"; // for data storage
 import { useAppContext } from "../../context/AppContext"; // for events updates
@@ -18,6 +20,8 @@ const Home: React.FC = () => {
   const [i, setI] = useState(parseInt(user?.split(" ").pop() || "0") || 0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const outletRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLDivElement | null>(null);
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
@@ -151,8 +155,24 @@ const Home: React.FC = () => {
             <button onClick={() => updateI()}>Set AppContext User to Alice</button>
           </ul>
         </MyModal>
-    </div>
-          <Outlet />
+      </div>
+      {/* Animate route changes */}
+      <TransitionGroup>
+        <CSSTransition
+          key={location.key}
+          nodeRef={outletRef}
+          classNames="slide"
+          timeout={300}
+          exit={false}
+          appear={true}
+          mountOnEnter
+          unmountOnExit
+        >
+          <div ref={outletRef}>
+            <Outlet />
+          </div>
+        </CSSTransition>
+      </TransitionGroup>
     </div>
   </>
   );
