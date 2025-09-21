@@ -10,7 +10,7 @@ import '../../utils/Modal.css';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 import Toast from 'react-bootstrap/Toast';
-import ToastContainer from 'react-bootstrap/ToastContainer';
+import ToastContainer, { ToastPosition } from 'react-bootstrap/ToastContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 import { BreadCrumb } from "primereact/breadcrumb";
@@ -30,6 +30,7 @@ const Home: React.FC = () => {
   const { data, setData } = useAppContext<MyData>();
   const [open, setOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [position, setPosition] = useState<ToastPosition>("top-center");
   const items = [
     {
       label: "Home",
@@ -145,11 +146,14 @@ const Home: React.FC = () => {
             <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
                 This is the content inside the div. <br></br>
                 that can be collapsed.<br></br>
-                <Button onClick={()=>setShowToast(true)} className="mb-2">
-                  Toast <strong>with</strong> Animation
+                <Button onClick={()=>{setShowToast(true); setPosition("bottom-center")}} className="mb-2">
+                  Toast
                 </Button>
             </div>
-          </Collapse>
+          </Collapse><br></br><br></br>
+          <Button onClick={()=>{setShowToast(true); setPosition("top-center")}} className="mb-2">
+            Toast <strong>with</strong> Animation
+          </Button>
         </div>
       )}
 
@@ -187,7 +191,7 @@ const Home: React.FC = () => {
 
       <ToastContainer
           className="p-3"
-          position="top-center"
+          position={position}
           style={{ zIndex: 1 }}>
         <Toast show={showToast} onClose={()=>setShowToast(false)} delay={3000} bg="dark" autohide>
           <Toast.Header>
