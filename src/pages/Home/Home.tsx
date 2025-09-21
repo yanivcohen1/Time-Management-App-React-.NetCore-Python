@@ -19,6 +19,7 @@ const Home: React.FC = () => {
   const { user, setUser } = useAppContext(); // return json
   const [global, setGlobalstate] = useState<string>(getGlobal); // return array
   const [isVisible, setIsVisible] = useState(false);
+  const [isVisibleB, setIsVisibleB] = useState(false);
   const [i, setI] = useState(parseInt(user?.split(" ").pop() || "0") || 0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Home: React.FC = () => {
       label: "Home",
       icon: "pi pi-home",
       command: () => {
+        setIsVisible(true);
         navigate('/home')
         //console.log("Home clicked!");
       }
@@ -41,6 +43,7 @@ const Home: React.FC = () => {
     {
       label: "Todo",
       command: () => {
+        setIsVisible(false);
         navigate('todo')
         // alert("Products clicked!");
       }
@@ -77,7 +80,7 @@ const Home: React.FC = () => {
   }, [global]);
 
   const toggleDiv = () => {
-    setIsVisible(prev => !prev);
+    setIsVisibleB(prev => !prev);
   };
 
   const updateI = () => {
@@ -100,53 +103,55 @@ const Home: React.FC = () => {
         <BreadCrumb model={items} home={home} />
     </div>
     <div style={{ width: '100%' }}>
-      <div style={{width: '400px', margin: '0 auto', backgroundColor: '#eee', padding: '16px', borderRadius: '8px'}}>
-        <h2 style={{ textAlign: 'center' }}><FontAwesomeIcon icon={faHome} /> Home Page</h2>
-        <div ref={inputRef}>
-          <h6>User: {user ?? "No user logged in"}</h6>
-          <button  onClick={() => updateI()}><FontAwesomeIcon icon={faUser} /> Set AppContext User to Alice</button>
-        </div>
-  
-        <div>
-          <h6>User: {global ?? "No user logged in"}</h6>
-          <button onClick={() => setGlobalstate("global Alice")}><FontAwesomeIcon icon={faList} /> Set global User to Alice</button>
-        </div>
-  
-        <h6>Toggle Div Example</h6>
-        <div className="p-0">
-          <button onClick={toggleDiv} className="bg-blue-500 text-black px-1 py-0 rounded">
-            {isVisible ? 'Hide' : 'Show'} Content
-          </button>
-  
-          {isVisible && (
-            <div className="mt-4 p-4 bg-gray-100 rounded shadow">
-              This is the content inside the div.
-            </div>
-          )}
-        </div><br></br>
-        <button onClick={() => setIsModalOpen(true)}>Open My Modal</button>
-        
-        <br></br><br></br>
-        <button onClick={fetchData}>Fetch Data</button>
-        
-        <br></br><br></br>
-        <Button
-          onClick={() => setOpen(!open)}
-          aria-controls="example-collapse-text"
-          aria-expanded={open}
-        >
-          {open! ? 'Collapse' : 'Uncollapse'} Content
-        </Button>
-        <Collapse in={open}>
-          <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
-              This is the content inside the div. <br></br>
-              that can be collapsed.<br></br>
-              <Button onClick={()=>setShowToast(true)} className="mb-2">
-                Toast <strong>with</strong> Animation
-              </Button>
+      {isVisible && (
+        <div style={{width: '400px', margin: '0 auto', backgroundColor: '#eee', padding: '16px', borderRadius: '8px'}}>
+          <h2 style={{ textAlign: 'center' }}><FontAwesomeIcon icon={faHome} /> Home Page</h2>
+          <div ref={inputRef}>
+            <h6>User: {user ?? "No user logged in"}</h6>
+            <button  onClick={() => updateI()}><FontAwesomeIcon icon={faUser} /> Set AppContext User to Alice</button>
           </div>
-        </Collapse>
-      </div>
+    
+          <div>
+            <h6>User: {global ?? "No user logged in"}</h6>
+            <button onClick={() => setGlobalstate("global Alice")}><FontAwesomeIcon icon={faList} /> Set global User to Alice</button>
+          </div>
+    
+          <h6>Toggle Div Example</h6>
+          <div className="p-0">
+            <button onClick={toggleDiv} className="bg-blue-500 text-black px-1 py-0 rounded">
+              {isVisibleB ? 'Hide' : 'Show'} Content
+            </button>
+    
+            {isVisibleB && (
+              <div className="mt-4 p-4 bg-gray-100 rounded shadow">
+                This is the content inside the div.
+              </div>
+            )}
+          </div><br></br>
+          <button onClick={() => setIsModalOpen(true)}>Open My Modal</button>
+          
+          <br></br><br></br>
+          <button onClick={fetchData}>Fetch Data</button>
+          
+          <br></br><br></br>
+          <Button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+          >
+            {open! ? 'Collapse' : 'Uncollapse'} Content
+          </Button>
+          <Collapse in={open}>
+            <div className="bg-gray-100 rounded shadow" id="example-collapse-text">
+                This is the content inside the div. <br></br>
+                that can be collapsed.<br></br>
+                <Button onClick={()=>setShowToast(true)} className="mb-2">
+                  Toast <strong>with</strong> Animation
+                </Button>
+            </div>
+          </Collapse>
+        </div>
+      )}
 
       {/* Modal window - the contant of MyModal will be project in children prop */}
       <div>
