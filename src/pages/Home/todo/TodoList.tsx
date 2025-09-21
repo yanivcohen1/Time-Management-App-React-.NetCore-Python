@@ -3,6 +3,7 @@ import { getData, saveData } from "../../../utils/storage"; // for data localsto
 import { useAppContext } from "../../../context/AppContext"; // for events updates
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import "../../../animation/slide-right.css";
+import "../../../animation/fade.css";
 interface Todo {
   id: string;
   text: string;
