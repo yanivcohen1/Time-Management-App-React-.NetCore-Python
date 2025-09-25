@@ -71,20 +71,20 @@ const App: React.FC = () => {
           {/* Side navigation wrapper */}
           <div>
             <nav className={`side-nav${menuOpen ? ' open' : ''}`} style={{ padding: '1rem', width: '100px', borderRight: '1px solid #ccc', display: 'flex', flexDirection: 'column' }}>
-             <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined}>Home</NavLink>
-             {!isAuthenticated ? (
-               <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined}>Login</NavLink>
-             ) : (
-               <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined}>Logout</NavLink>
-             )}
-             {isAuthenticated && (role === 'user' || role === 'admin') && (
-               <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined}>User</NavLink>
-             )}
-             {isAuthenticated && role === 'admin' && (
-               <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined}>Admin</NavLink>
-             )}
-             <NavLink to="/contact?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined}>Contact</NavLink>
-             <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined}>About</NavLink>
+              <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Home</NavLink>
+              {!isAuthenticated ? (
+                <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Login</NavLink>
+              ) : (
+                <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Logout</NavLink>
+              )}
+              {isAuthenticated && (role === 'user' || role === 'admin') && (
+                <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>User</NavLink>
+              )}
+              {isAuthenticated && role === 'admin' && (
+                <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Admin</NavLink>
+              )}
+              <NavLink to="/contact?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Contact</NavLink>
+              <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>About</NavLink>
             </nav>
           </div>
            
