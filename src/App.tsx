@@ -62,53 +62,49 @@ const App: React.FC = () => {
   return (
     <>
       <Router>
-        <nav style={{ padding: '1rem' }}>
-          <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined}>Home</NavLink> |{" "}
-          {!isAuthenticated ? (
-              <>
-                <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined}>Login</NavLink> |{" "}
-              </>
-            ) : (
-              <>
-                <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined}>Logout</NavLink> |{" "}
-              </>
-            )}
-          {isAuthenticated && (role === 'user' || role === 'admin') ? (
-              <>
-                <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined}>User</NavLink> |{" "}
-              </>
-            ) : null}
-          {isAuthenticated && role === 'admin' && (
-              <>
-                <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined}>Admin</NavLink>|{" "}
-              </>
-            )}
-          <NavLink to="/contact?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined}>Contact</NavLink> |{" "}
-          <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined}>About</NavLink> |{" "}
-        </nav>
-  
-        <Routes>
-          {/* Redirect root to /home */}
-          <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<Home />}
-          >
-            <Route path="todo" element={<TodoList />} />
-          </Route>
-          <Route path="/about/:aboutId" element={<About />} >
-            <Route path="about-me/:aboutMeId" element={<AboutMe />} />
-          </Route>
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/unauthorized" element={<Unauthorized />} />
-          <Route element={<PrivateRoute allowedRoles={['user', 'admin']} />}>
-            <Route path="/user" element={<UserPage />} />
-          </Route>
-          <Route element={<PrivateRoute allowedRoles={['admin']} />}>
-            <Route path="/admin" element={<AdminPage />} />
-          </Route>
-          <Route path="/logout" element={<Logout />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <div style={{ display: 'flex' }}>
+          <nav style={{ padding: '1rem', width: '100px', borderRight: '1px solid #ccc', display: 'flex', flexDirection: 'column' }}>
+            <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined}>Home</NavLink>
+            {!isAuthenticated ? (
+                <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined}>Login</NavLink>
+              ) : (
+                <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined}>Logout</NavLink>
+              )}
+            {isAuthenticated && (role === 'user' || role === 'admin') && (
+                <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined}>User</NavLink>
+              )}
+            {isAuthenticated && role === 'admin' && (
+                <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined}>Admin</NavLink>
+              )}
+            <NavLink to="/contact?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined}>Contact</NavLink>
+            <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined}>About</NavLink>
+          </nav>
+          
+          <div style={{ flex: 1, padding: '1rem' }}>
+            <Routes>
+              {/* Redirect root to /home */}
+              <Route path="/" element={<Navigate to="/home" replace />} />
+              <Route path="/home" element={<Home />}
+              >
+                <Route path="todo" element={<TodoList />} />
+              </Route>
+              <Route path="/about/:aboutId" element={<About />} >
+                <Route path="about-me/:aboutMeId" element={<AboutMe />} />
+              </Route>
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/unauthorized" element={<Unauthorized />} />
+              <Route element={<PrivateRoute allowedRoles={['user', 'admin']} />}>
+                <Route path="/user" element={<UserPage />} />
+              </Route>
+              <Route element={<PrivateRoute allowedRoles={['admin']} />}>
+                <Route path="/admin" element={<AdminPage />} />
+              </Route>
+              <Route path="/logout" element={<Logout />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </div>
       </Router>
       <div style={{ padding: 20 }}>
         <LoadingBar color="#29d" height={3} ref={loadingRef} />

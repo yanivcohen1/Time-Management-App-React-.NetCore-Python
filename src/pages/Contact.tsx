@@ -9,7 +9,7 @@ const MyComponent: React.FC = () => {
 
     return (
         <>
-            <div className="p-4">
+            <div className="p-4 text-center">
                 <h1>Contact</h1>
                 <h3 className="text-xl font-bold">Query: ID={id} name={name}</h3>
             </div>

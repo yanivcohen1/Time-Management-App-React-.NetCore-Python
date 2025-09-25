@@ -6,7 +6,7 @@ const About: React.FC = () => {
     const { aboutId } = useParams<{ aboutId: string }>();
 
     return (
-        <div className="p-4">
+        <div className="p-4 text-center">
             <h1>About</h1>
             <Link to="about-me/2">About me</Link>
             <h3 className="text-xl font-bold">User ID: {aboutId}</h3>
