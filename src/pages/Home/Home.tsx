@@ -59,14 +59,20 @@ const Home: React.FC = () => {
   }
   // update one time on load
   useEffect(() => {
+    console.log('Home mounted');
     if (data) {
       console.log('data read from context:', data.foo);
     }
     const initialData = { foo: "bar" };
     setData(initialData);
     console.log('data set to context:', initialData.foo);
-
     console.log('useRef read inner text:', inputRef.current?.innerText);
+
+    return () => {
+      console.log('Home is about to unmount');
+      // put your cleanup logic here
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
