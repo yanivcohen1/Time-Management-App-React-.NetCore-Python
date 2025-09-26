@@ -25,6 +25,12 @@ const App: React.FC = () => {
   const { isAuthenticated, role } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  // Open About submenu if currently on AboutMe route
+  useEffect(() => {
+    if (window.location.pathname.includes('about-me')) {
+      setAboutOpen(true);
+    }
+  }, []);
   const loadingRef = useRef<InstanceType<typeof LoadingBar>>(null!);
 
   useEffect(() => {
