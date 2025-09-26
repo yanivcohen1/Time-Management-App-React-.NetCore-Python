@@ -83,7 +83,7 @@ const App: React.FC = () => {
               {isAuthenticated && role === 'admin' && (
                 <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Admin</NavLink>
               )}
-              <NavLink to="/contact?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Contact</NavLink>
+              <NavLink to="/contact/2?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Contact</NavLink>
               <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>About</NavLink>
             </nav>
           </div>
@@ -108,7 +108,7 @@ const App: React.FC = () => {
               <Route path="/about/:aboutId" element={<About />} >
                 <Route path="about-me/:aboutMeId" element={<AboutMe />} />
               </Route>
-              <Route path="/contact" element={<Contact />} />
+              <Route path="/contact/:id" element={<Contact />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
               <Route element={<PrivateRoute allowedRoles={['user', 'admin']} />}>
