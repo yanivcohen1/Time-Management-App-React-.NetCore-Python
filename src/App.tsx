@@ -15,12 +15,16 @@ import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Unauthorized from './pages/Unauthorized';
 import Logout from './pages/Logout';
+import Collapse from 'react-bootstrap/Collapse';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 
 const NotFound = () => <h1>404 - Page Not Found</h1>;
 
 const App: React.FC = () => {
   const { isAuthenticated, role } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const loadingRef = useRef<InstanceType<typeof LoadingBar>>(null!);
 
   useEffect(() => {
@@ -70,21 +74,50 @@ const App: React.FC = () => {
           )}
           {/* Side navigation wrapper */}
           <div>
-            <nav className={`side-nav${menuOpen ? ' open' : ''}`} style={{ padding: '1rem', width: '100px', borderRight: '1px solid #ccc', display: 'flex', flexDirection: 'column' }}>
-              <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Home</NavLink>
+            <nav className={`side-nav${menuOpen ? ' open' : ''}`} style={{ padding: '1rem', width: '130px', borderRight: '1px solid #ccc', display: 'flex', flexDirection: 'column' }}>
+              <NavLink to="/home" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>Home</NavLink>
               {!isAuthenticated ? (
-                <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Login</NavLink>
+                <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>Login</NavLink>
               ) : (
-                <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Logout</NavLink>
+                <NavLink to="/logout" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>Logout</NavLink>
               )}
               {isAuthenticated && (role === 'user' || role === 'admin') && (
-                <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>User</NavLink>
+                <NavLink to="/user" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>User</NavLink>
               )}
               {isAuthenticated && role === 'admin' && (
-                <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Admin</NavLink>
+                <NavLink to="/admin" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>Admin</NavLink>
               )}
-              <NavLink to="/contact/2?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>Contact</NavLink>
-              <NavLink to="/about/1" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => setMenuOpen(false)}>About</NavLink>
+              <NavLink to="/contact/2?id=1&name=yan" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>Contact</NavLink>
+              <div>
+                <NavLink
+                  to="/about/1"
+                  className={({ isActive }) => isActive ? 'active' : undefined}
+                  onClick={() => { setMenuOpen(false); setAboutOpen(prev => !prev); }}
+                  style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+                >
+                  <FontAwesomeIcon
+                    icon={faChevronRight}
+                    style={{
+                      marginRight: '0.5rem',
+                      transform: aboutOpen ? 'rotate(90deg)' : 'rotate(0deg)',
+                      transition: 'transform 0.2s ease'
+                    }}
+                  />
+                  About
+                </NavLink>
+                <Collapse in={aboutOpen} unmountOnExit>
+                  <div style={{ paddingLeft: '1.5rem', marginTop: '0.5rem', display: 'flex', alignItems: 'center' }}>
+                    <NavLink
+                      to="/about/1/about-me/3"
+                      className={({ isActive }) => isActive ? 'active' : undefined}
+                      onClick={() => setMenuOpen(false)}
+                      style={{ padding: '0.25rem 0' }}
+                    >
+                      AboutMe
+                    </NavLink>
+                  </div>
+                </Collapse>
+              </div>
             </nav>
           </div>
            
