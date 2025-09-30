@@ -31,6 +31,9 @@ const Home: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState<ToastPosition>("top-center");
+  const [showSelectBox, setShowSelectBox] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<string>('one');
+  const [confirmedOption, setConfirmedOption] = useState<string>('');
   const items = [
     {
       label: "Home",
@@ -160,6 +163,27 @@ const Home: React.FC = () => {
           <Button onClick={()=>{setShowToast(true); setPosition("top-center")}} className="mb-2">
             Toast <strong>with</strong> Animation
           </Button>
+          <br></br>
+          <button onClick={() => setShowSelectBox(true)}>Show Selection Box</button>
+          {confirmedOption && <span style={{ marginLeft: '8px', fontWeight: 'bold' }}>Selected: {confirmedOption}</span>}
+          {showSelectBox && (
+            <div style={{position: 'sticky', bottom: 0, backgroundColor: '#fff', padding: '16px', boxShadow: '0 -2px 5px rgba(0,0,0,0.3)', marginTop: '16px', textAlign: 'center'}}>
+              <h6>Select an option:</h6>
+              <select value={selectedOption} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedOption(e.target.value)}>
+                <option value="one">One</option>
+                <option value="two">Two</option>
+                <option value="tree">Tree</option>
+              </select>
+              <button 
+                onClick={() => { 
+                  setConfirmedOption(selectedOption);
+                  console.log('Selected:', selectedOption);
+                  setShowSelectBox(false);
+                }} 
+                style={{marginLeft: '8px'}}>Accept
+              </button>
+            </div>
+          )}
         </div>
       )}
 
