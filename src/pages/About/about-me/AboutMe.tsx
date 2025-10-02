@@ -4,7 +4,7 @@ const AboutMe: React.FC = () => {
 
     return (
     <div>
-      <h1>About me: User ID: {aboutMeId}</h1>
+      <h3>About me: User ID: {aboutMeId}</h3>
     </div>
   );
 };
