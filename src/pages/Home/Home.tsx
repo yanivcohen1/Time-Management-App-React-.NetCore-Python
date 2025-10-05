@@ -267,7 +267,7 @@ const Home: React.FC = () => {
       </ToastContainer>
 
       {showSelectBox && (
-        <div style={{position: 'sticky', bottom: 0, backgroundColor: '#fff', padding: '16px', boxShadow: '0 -2px 5px rgba(0,0,0,0.3)', marginTop: '16px', textAlign: 'center'}}>
+        <div style={{position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', backgroundColor: '#fff', padding: '16px', boxShadow: '0 -2px 5px rgba(0,0,0,0.3)', marginTop: '16px', textAlign: 'center'}}>
           <h6>Select an option:</h6>
           <select value={selectedOption} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedOption(e.target.value)}>
             <option value="one">One</option>
