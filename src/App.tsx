@@ -180,6 +180,10 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
     setShowCookieBanner(false);
   };
 
+  const handleToggleCookieBanner = () => {
+    setShowCookieBanner(prev => !prev);
+  };
+
   return (
     <div style={{ display: 'flex' }}>
       {/* Mobile menu icon */}
@@ -312,7 +316,9 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
         <Routes>
           {/* Redirect root to /home */}
           <Route path="/" element={<Navigate to="/home" replace />} />
-          <Route path="/home" element={<Home />}
+          <Route
+            path="/home"
+            element={<Home onToggleCookieBanner={handleToggleCookieBanner} isCookieBannerVisible={showCookieBanner} />}
           >
             <Route path="todo" element={<TodoList />} />
           </Route>

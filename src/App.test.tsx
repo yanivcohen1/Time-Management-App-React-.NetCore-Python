@@ -19,7 +19,7 @@ test('renders Home Set AppContext button', () => {
   render(
     <AppProvider>
       <MemoryRouter>
-        <Home />
+        <Home onToggleCookieBanner={() => {}} isCookieBannerVisible={false} />
       </MemoryRouter>
     </AppProvider>
   );

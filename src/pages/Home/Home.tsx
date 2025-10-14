@@ -22,11 +22,15 @@ import ToastContainer, { ToastPosition } from 'react-bootstrap/ToastContainer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 
-const Home: React.FC = () => {
+interface HomeProps {
+  onToggleCookieBanner: () => void;
+  isCookieBannerVisible: boolean;
+}
+
+const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible }) => {
   const { user, setUser } = useAppContext(); // return json
   const [global, setGlobalstate] = useState<string>(getGlobal); // return array
   const [isVisible, setIsVisible] = useState(true);
-  const [isVisibleB, setIsVisibleB] = useState(false);
   const [i, setI] = useState(parseInt(user?.split(" ").pop() || "0") || 0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
@@ -90,10 +94,6 @@ const Home: React.FC = () => {
       console.error('Error saving todos to global Storage:', error);
     }
   }, [global]);
-
-  const toggleDiv = () => {
-    setIsVisibleB(prev => !prev);
-  };
 
   const updateI = () => {
     setUser("AppContext Alice " + (i+1))
@@ -192,15 +192,15 @@ const Home: React.FC = () => {
 
                     <div>
                       <div className="d-flex justify-content-between align-items-center">
-                        <Button variant="info" size="sm" onClick={toggleDiv}>
-                          {isVisibleB ? 'Hide' : 'Show'} Content
+                        <Button variant="info" size="sm" onClick={onToggleCookieBanner}>
+                          {isCookieBannerVisible ? 'Hide' : 'Show'} Cookie Banner
                         </Button>
                       </div>
-                      <Collapse in={isVisibleB}>
-                        <Card className={`mt-3 border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`}>
-                          <Card.Body>This is the content inside the div.</Card.Body>
-                        </Card>
-                      </Collapse>
+                      <Card className={`mt-3 border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`}>
+                        <Card.Body>
+                          Cookie banner is currently <strong>{isCookieBannerVisible ? 'visible' : 'hidden'}</strong>.
+                        </Card.Body>
+                      </Card>
                     </div>
 
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
