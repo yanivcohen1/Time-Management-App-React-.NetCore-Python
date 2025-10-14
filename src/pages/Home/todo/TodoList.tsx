@@ -16,6 +16,8 @@ import Alert from "react-bootstrap/Alert";
 import { useTheme } from "../../../hooks/useTheme";
 import "../../../animation/slide-right.css";
 import "../../../animation/fade.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faListCheck } from "@fortawesome/free-solid-svg-icons";
 interface Todo {
   id: string;
   text: string;
@@ -103,7 +105,10 @@ const TodoList: React.FC = () => {
           <Card className={`shadow-sm ${isDarkTheme ? 'bg-dark text-white border-secondary' : ''}`}>
             <Card.Header className={isDarkTheme ? 'bg-dark text-white border-secondary' : 'bg-white'}>
               <div className="d-flex justify-content-between align-items-center">
-                <h3 className="mb-0">To-Do List</h3>
+                <h3 className="mb-0 d-flex align-items-center gap-2">
+                  <FontAwesomeIcon icon={faListCheck} />
+                  <span>To-Do List</span>
+                </h3>
                 <Badge bg="primary" pill>
                   {todos.length}
                 </Badge>

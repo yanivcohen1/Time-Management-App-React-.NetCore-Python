@@ -18,7 +18,7 @@ import Logout from './pages/Logout';
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun, faIdBadge } from '@fortawesome/free-solid-svg-icons';
 import { BreadCrumb } from 'primereact/breadcrumb';
 
 const NotFound = () => <h1>404 - Page Not Found</h1>;
@@ -215,14 +215,16 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
               <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '0.5rem' }} /> About
             </NavLink>
             <Collapse in={aboutOpen} unmountOnExit>
-              <div style={{ paddingLeft: '1.5rem', marginTop: '0.5rem', display: 'flex', alignItems: 'center' }}>
+              <div className="side-nav__submenu">
                 <NavLink
                   to="/about/1/about-me/3"
-                  className={({ isActive }) => (isActive || location.pathname.includes('/about-me')) ? 'active' : undefined}
+                  className={({ isActive }) => {
+                    const active = isActive || location.pathname.includes('/about-me');
+                    return `side-nav__submenu-link${active ? ' active' : ''}`;
+                  }}
                   onClick={() => setMenuOpen(false)}
-                  style={{ padding: '0.25rem 0' }}
                 >
-                  About Me
+                  <FontAwesomeIcon icon={faIdBadge} style={{ marginRight: '0.5rem' }} /> About Me
                 </NavLink>
               </div>
             </Collapse>

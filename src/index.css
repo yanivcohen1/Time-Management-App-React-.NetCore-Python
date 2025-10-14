@@ -55,8 +55,27 @@ code {
   display: flex;
   align-items: center;
 }
+.side-nav__submenu {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.side-nav__submenu-link {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1.75rem;
+  width: calc(100% - 1.75rem);
+}
 /* Active link background */
  .side-nav a.active {
+  background-color: gray;
+}
+/* Active submenu link background - already indented */
+.side-nav__submenu-link.active {
   background-color: gray;
 }
 /* Side nav toggle for mobile */
