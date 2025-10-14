@@ -9,7 +9,7 @@ const About: React.FC = () => {
         <div className="p-4 text-center">
             <h1>About</h1>
             <Link to="about-me/2">About me</Link>
-            <h3 className="text-xl font-bold">About: User ID: {aboutId}</h3>
+            <h4 className="text-xl font-bold">About: User ID: {aboutId}</h4>
             <Outlet /> {/* <- renders <Settings /> when path is /dashboard/settings */}
         </div>
     );

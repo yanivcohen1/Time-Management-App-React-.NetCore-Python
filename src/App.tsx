@@ -254,7 +254,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
             <Collapse in={aboutOpen} unmountOnExit>
               <div className="side-nav__submenu">
                 <NavLink
-                  to="/about/1/about-me/3"
+                  to="/about/1/about-me/3?id=1&name=yan"
                   className={({ isActive }) => {
                     const active = isActive || location.pathname.includes('/about-me');
                     return `side-nav__submenu-link${active ? ' active' : ''}`;
