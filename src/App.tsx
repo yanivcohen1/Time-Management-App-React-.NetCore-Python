@@ -114,8 +114,29 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   }, []);
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-bs-theme', theme);
+    const root = document.documentElement;
+    const body = document.body;
+    const rootContainer = document.getElementById('root');
+
+    root.setAttribute('data-bs-theme', theme);
+    if (body) {
+      body.setAttribute('data-bs-theme', theme);
+    }
+    if (rootContainer) {
+      rootContainer.setAttribute('data-bs-theme', theme);
+    }
+
     saveData('theme', theme);
+
+    return () => {
+      root.removeAttribute('data-bs-theme');
+      if (body) {
+        body.removeAttribute('data-bs-theme');
+      }
+      if (rootContainer) {
+        rootContainer.removeAttribute('data-bs-theme');
+      }
+    };
   }, [theme]);
 
   const toggleTheme = () => {

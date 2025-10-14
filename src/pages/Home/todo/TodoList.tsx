@@ -13,6 +13,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Row from "react-bootstrap/Row";
 import Stack from "react-bootstrap/Stack";
 import Alert from "react-bootstrap/Alert";
+import Modal from "react-bootstrap/Modal";
 import { useTheme } from "../../../hooks/useTheme";
 import "../../../animation/slide-right.css";
 import "../../../animation/fade.css";
@@ -46,6 +47,8 @@ const TodoList: React.FC = () => {
 
   const [todos, setTodos] = useState<Todo[]>(initTodo);
   const [query, setQuery] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [todoToDelete, setTodoToDelete] = useState<Todo | null>(null);
 
   // Memoize filtered results for performance
   const filtered = useMemo(() => {
@@ -91,8 +94,23 @@ const TodoList: React.FC = () => {
   };
 
   const handleDelete = (idToDelete: string) => {
-    const filteredTodos = todos.filter(todo => todo.id !== idToDelete);
-    setTodos(filteredTodos);
+    setTodos(prev => prev.filter(todo => todo.id !== idToDelete));
+  };
+
+  const handleDeleteRequest = (todo: Todo) => {
+    setTodoToDelete(todo);
+    setShowDeleteModal(true);
+  };
+
+  const handleCancelDelete = () => {
+    setShowDeleteModal(false);
+    setTodoToDelete(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (!todoToDelete) return;
+    handleDelete(todoToDelete.id);
+    handleCancelDelete();
   };
 
   // Manage refs for each list item to avoid findDOMNode
@@ -186,7 +204,7 @@ const TodoList: React.FC = () => {
                             <Button
                               variant="outline-danger"
                               size="sm"
-                              onClick={() => handleDelete(todo.id)}
+                              onClick={() => handleDeleteRequest(todo)}
                             >
                               Delete
                             </Button>
@@ -202,6 +220,36 @@ const TodoList: React.FC = () => {
                   )}
                 </ListGroup>
               </Stack>
+              <Modal
+                show={showDeleteModal}
+                onHide={handleCancelDelete}
+                centered
+                backdrop="static"
+                keyboard={false}
+                contentClassName={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
+                data-bs-theme={isDarkTheme ? 'dark' : undefined}
+              >
+                <Modal.Header closeButton closeVariant={isDarkTheme ? 'white' : undefined} className={isDarkTheme ? 'border-secondary' : undefined}>
+                  <Modal.Title>Confirm delete</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className={isDarkTheme ? 'bg-dark text-white' : undefined}>
+                  {todoToDelete ? (
+                    <>
+                      Are you sure you want to delete <strong>{todoToDelete.text}</strong>?
+                    </>
+                  ) : (
+                    'No item selected for deletion.'
+                  )}
+                </Modal.Body>
+                <Modal.Footer className={isDarkTheme ? 'border-secondary' : undefined}>
+                  <Button variant={isDarkTheme ? 'outline-light' : 'secondary'} onClick={handleCancelDelete}>
+                    Cancel
+                  </Button>
+                  <Button variant="danger" onClick={handleConfirmDelete}>
+                    Delete
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </Card.Body>
           </Card>
         </Col>
