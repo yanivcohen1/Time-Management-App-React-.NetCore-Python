@@ -17,7 +17,7 @@ import Unauthorized from './pages/Unauthorized';
 import Logout from './pages/Logout';
 import Collapse from 'react-bootstrap/Collapse';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 const NotFound = () => <h1>404 - Page Not Found</h1>;
 
@@ -76,6 +76,10 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [showCookieBanner, setShowCookieBanner] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    const storedTheme = getData<string>('theme');
+    return storedTheme === 'dark' ? 'dark' : 'light';
+  });
   const location = useLocation();
   const navRef = useRef<HTMLElement>(null!);
 
@@ -104,6 +108,15 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
       setShowCookieBanner(true);
     }
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-bs-theme', theme);
+    saveData('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
+  };
 
   const handleAcceptCookies = () => {
     saveData('cookieConsent', true);
@@ -192,7 +205,23 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
         </div>
       </nav>
       {/* Main content */}
-      <div className="main-content" style={{ flex: 1, padding: '1rem' }}>
+      <div
+        className="main-content"
+        style={{ flex: 1, padding: '1rem' }}
+        data-bs-theme={theme}
+      >
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
+            onClick={toggleTheme}
+            aria-pressed={theme === 'dark'}
+            aria-label={`Activate ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
+            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+        </div>
         <Routes>
           {/* Redirect root to /home */}
           <Route path="/" element={<Navigate to="/home" replace />} />

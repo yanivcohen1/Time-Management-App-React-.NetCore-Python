@@ -4,6 +4,7 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import "../../animation/slide-right.css";
 import axios from 'axios';
 import { getGlobal, setGlobal } from "../../utils/storage"; // for data storage
+import { useTheme } from "../../hooks/useTheme";
 import { useAppContext } from "../../context/AppContext"; // for events updates
 import MyModal from '../../utils/Modal';
 import '../../utils/Modal.css';
@@ -36,6 +37,8 @@ const Home: React.FC = () => {
   type MyData = { foo: string; };
   const { data, setData } = useAppContext<MyData>();
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const isDarkTheme = theme === 'dark';
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState<ToastPosition>("top-center");
   const toastContainerStyle: React.CSSProperties = {
@@ -56,6 +59,9 @@ const Home: React.FC = () => {
   // Add sticky save message state and toast message state
   const [showStickySave, setShowStickySave] = useState(true);
   const [toastMessage, setToastMessage] = useState<string>('');
+  const breadcrumbClassName = `flex-grow-1 rounded-3 px-3 py-2 shadow-sm ${isDarkTheme ? 'bg-dark text-white border border-secondary' : 'bg-white text-body border border-light'}`;
+  const breadcrumbItemClass = isDarkTheme ? 'text-white' : 'text-secondary';
+  const breadcrumbSeparatorClass = isDarkTheme ? 'text-secondary' : 'text-muted';
   const items = [
     {
       label: "Home",
@@ -139,13 +145,22 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <div className="bg-light py-2 border-bottom">
+  <div className={isDarkTheme ? 'bg-dark text-white py-2 border-bottom border-secondary' : 'bg-light py-2 border-bottom'}>
         <Container fluid="lg" className="d-flex align-items-center">
           <BreadCrumb
             model={items}
             home={home}
-            className="flex-grow-1"
-            pt={{ menu: { className: 'mb-0' } }}
+            className={breadcrumbClassName}
+            data-bs-theme={theme}
+            pt={{
+              root: { className: 'border-0 bg-transparent p-0' },
+              menu: { className: 'mb-0 bg-transparent d-flex align-items-center gap-1' },
+              menuitem: { className: `${breadcrumbItemClass} d-flex align-items-center` },
+              action: { className: 'bg-transparent border-0 text-decoration-none' },
+              label: { className: breadcrumbItemClass },
+              icon: { className: breadcrumbItemClass },
+              separator: { className: `${breadcrumbSeparatorClass} mx-2` }
+            }}
           />
         </Container>
       </div>
@@ -172,16 +187,16 @@ const Home: React.FC = () => {
         <Row className="g-4">
           {isVisible && (
             <Col xs={12} md={8} lg={6} className="mx-auto">
-              <Card className="shadow-sm">
-                <Card.Header className="text-center bg-white">
+              <Card className={`shadow-sm ${isDarkTheme ? 'bg-dark text-white border-secondary' : ''}`}>
+                <Card.Header className={`text-center ${isDarkTheme ? 'bg-dark text-white border-secondary' : 'bg-white'}`}>
                   <h2 className="mb-0"><FontAwesomeIcon icon={faHome} className="me-2" />Home Page</h2>
                 </Card.Header>
-                <Card.Body>
+                <Card.Body className={isDarkTheme ? 'bg-dark text-white' : undefined}>
                   <Stack gap={3}>
                     <div ref={inputRef}>
                       <h6 className="text-muted mb-2">App Context: {user ?? 'No user logged in'}</h6>
-                      <Card className="border-0 bg-light">
-                        <Card.Body className="d-flex justify-content-between align-items-center">
+                      <Card className={`border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`}>
+                        <Card.Body className={`d-flex justify-content-between align-items-center ${isDarkTheme ? 'text-white' : ''}`}>
                           
                           <Button variant="outline-primary" size="sm" onClick={updateI}>
                             <FontAwesomeIcon icon={faUser} className="me-2" />Set AppContext User to Alice
@@ -192,8 +207,8 @@ const Home: React.FC = () => {
 
                     <div>
                       <h6 className="text-muted mb-2">Global Storage: {global ?? 'No user logged in'}</h6>
-                      <Card className="border-0 bg-light">
-                        <Card.Body className="d-flex justify-content-between align-items-center">
+                      <Card className={`border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`}>
+                        <Card.Body className={`d-flex justify-content-between align-items-center ${isDarkTheme ? 'text-white' : ''}`}>
                           <Button variant="outline-success" size="sm" onClick={() => setGlobalstate('global Alice')}>
                             <FontAwesomeIcon icon={faList} className="me-2" />Set global User to Alice
                           </Button>
@@ -208,7 +223,7 @@ const Home: React.FC = () => {
                         </Button>
                       </div>
                       <Collapse in={isVisibleB}>
-                        <Card className="mt-3 border-0 bg-light">
+                        <Card className={`mt-3 border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`}>
                           <Card.Body>This is the content inside the div.</Card.Body>
                         </Card>
                       </Collapse>
@@ -218,7 +233,7 @@ const Home: React.FC = () => {
                       <Button variant="primary" onClick={() => setIsModalOpen(true)}>Open Custom Modal</Button>
                       <Button variant="outline-secondary" onClick={fetchData}>Fetch Data</Button>
                       <Button
-                        variant="outline-dark"
+                        variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
                         onClick={() => setOpen(!open)}
                         aria-controls="example-collapse-text"
                         aria-expanded={open}
@@ -228,8 +243,8 @@ const Home: React.FC = () => {
                     </Stack>
 
                     <Collapse in={open}>
-                      <Card className="border-0 bg-light" id="example-collapse-text">
-                        <Card.Body>
+                      <Card className={`border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`} id="example-collapse-text">
+                        <Card.Body className={isDarkTheme ? 'text-white' : undefined}>
                           <p className="mb-2">This is the content inside the div that can be collapsed.</p>
                           <Button onClick={() => { setShowToast(true); setPosition('top-center'); }} className="mb-2">
                             Toast
@@ -246,7 +261,10 @@ const Home: React.FC = () => {
                       <Button variant="outline-primary" onClick={() => setShowStickySave(true)}>
                         Show Save Sticky Message
                       </Button>
-                      <Button variant="outline-dark" onClick={() => setShowSelectBox(true)}>
+                      <Button
+                        variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
+                        onClick={() => setShowSelectBox(true)}
+                      >
                         Show Selection Modal
                       </Button>
                       {confirmedOption && (
@@ -273,17 +291,28 @@ const Home: React.FC = () => {
           </ul>
         </MyModal>
 
-        <Modal show={showSelectBox} onHide={() => setShowSelectBox(false)} centered>
-          <Modal.Header closeButton>
+        <Modal
+          show={showSelectBox}
+          onHide={() => setShowSelectBox(false)}
+          centered
+          contentClassName={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
+          data-bs-theme={theme}
+        >
+          <Modal.Header
+            closeButton
+            closeVariant={isDarkTheme ? 'white' : undefined}
+            className={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
+          >
             <Modal.Title>Select an option</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body className={isDarkTheme ? 'bg-dark text-white' : undefined}>
             <Form>
               <Form.Group controlId="selectOption">
-                <Form.Label>Available options</Form.Label>
+                <Form.Label className={isDarkTheme ? 'text-white' : undefined}>Available options</Form.Label>
                 <Form.Select
                   value={selectedOption}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedOption(e.target.value)}
+                  className={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
                 >
                   <option value="one">One</option>
                   <option value="two">Two</option>
@@ -292,7 +321,7 @@ const Home: React.FC = () => {
               </Form.Group>
             </Form>
           </Modal.Body>
-          <Modal.Footer>
+          <Modal.Footer className={isDarkTheme ? 'bg-dark border-secondary' : undefined}>
             <Button variant="secondary" onClick={() => setShowSelectBox(false)}>
               Cancel
             </Button>
