@@ -246,8 +246,23 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
         style={{ flex: 1, padding: '1rem' }}
         data-bs-theme={theme}
       >
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: showHomeBreadcrumb ? '0.5rem' : '1rem' }}>
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
+            onClick={toggleTheme}
+            aria-pressed={theme === 'dark'}
+            aria-label={`Activate ${theme === 'dark' ? 'light' : 'dark'} theme`}
+          >
+            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
+            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
+          </button>
+        </div>
         {showHomeBreadcrumb && (
-          <div className={isDarkTheme ? 'bg-dark text-white py-2 border-bottom border-secondary' : 'bg-light py-2 border-bottom'}>
+          <div
+            className={isDarkTheme ? 'bg-dark text-white py-2 border-bottom border-secondary' : 'bg-light py-2 border-bottom'}
+            style={{ marginBottom: '1rem' }}
+          >
             <Container fluid="lg" className="d-flex align-items-center">
               <BreadCrumb
                 model={breadcrumbItems}
@@ -267,18 +282,6 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
             </Container>
           </div>
         )}
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
-          <button
-            type="button"
-            className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
-            onClick={toggleTheme}
-            aria-pressed={theme === 'dark'}
-            aria-label={`Activate ${theme === 'dark' ? 'light' : 'dark'} theme`}
-          >
-            <FontAwesomeIcon icon={theme === 'dark' ? faSun : faMoon} />
-            <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-          </button>
-        </div>
         <Routes>
           {/* Redirect root to /home */}
           <Route path="/" element={<Navigate to="/home" replace />} />
