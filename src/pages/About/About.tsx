@@ -1,18 +1,40 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useParams, Outlet } from "react-router-dom";
+import { Link, useParams, Outlet } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import Stack from "react-bootstrap/Stack";
+import { AboutSwitchProvider, useAboutSwitch } from "./AboutSwitchContext";
 
-const About: React.FC = () => {
+const AboutContent: React.FC = () => {
     const { aboutId } = useParams<{ aboutId: string }>();
+    const { isOn, setIsOn } = useAboutSwitch();
+
+    const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsOn(event.target.checked);
+    };
 
     return (
         <div className="p-4 text-center">
             <h1>About</h1>
-            <Link to="about-me/2">About me</Link>
+            <Stack gap={3} className="align-items-center">
+                <Link to="about-me/2">About me</Link>
+                <Form.Check
+                    type="switch"
+                    id="about-shared-switch"
+                    label={isOn ? "Switch On" : "Switch Off"}
+                    checked={isOn}
+                    onChange={handleToggle}
+                />
+            </Stack>
             <h4 className="text-xl font-bold">About: User ID: {aboutId}</h4>
-            <Outlet /> {/* <- renders <Settings /> when path is /dashboard/settings */}
+            <Outlet />
         </div>
     );
 };
+
+const About: React.FC = () => (
+    <AboutSwitchProvider>
+        <AboutContent />
+    </AboutSwitchProvider>
+);
 
 export default About;

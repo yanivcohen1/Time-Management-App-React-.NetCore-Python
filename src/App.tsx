@@ -15,10 +15,11 @@ import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
 import Unauthorized from './pages/Unauthorized';
 import Logout from './pages/Logout';
+import RegistrationPage from './pages/RegistrationPage';
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun, faIdBadge, faTasks } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faHome, faSignInAlt, faSignOutAlt, faUser, faUsers, faEnvelope, faInfoCircle, faMoon, faSun, faIdBadge, faTasks, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { BreadCrumb } from 'primereact/breadcrumb';
 
 const NotFound = () => <h1>404 - Page Not Found</h1>;
@@ -288,6 +289,11 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
           </div>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', paddingTop: '1rem', borderTop: '1px solid rgba(255,255,255,0.15)' }}>
+          {!isAuthenticated && (
+            <NavLink to="/register" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>
+              <FontAwesomeIcon icon={faUserPlus} style={{ marginRight: '0.5rem' }} /> Register
+            </NavLink>
+          )}
           {!isAuthenticated ? (
             <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : undefined} onClick={() => { setMenuOpen(false); setAboutOpen(false); }}>
               <FontAwesomeIcon icon={faSignInAlt} style={{ marginRight: '0.5rem' }} /> Login
@@ -349,6 +355,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
             <Route path="about-me/:aboutMeId" element={<AboutMe />} />
           </Route>
           <Route path="/contact/:id" element={<Contact />} />
+          <Route path="/register" element={<RegistrationPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
           <Route element={<PrivateRoute allowedRoles={['user', 'admin']} />}>
