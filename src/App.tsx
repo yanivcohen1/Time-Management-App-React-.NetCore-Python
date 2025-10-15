@@ -101,6 +101,19 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [menuOpen]);
 
+  useEffect(() => {
+    const body = document.body;
+    if (!body) {
+      return;
+    }
+    if (menuOpen) {
+      body.classList.add('side-nav-open');
+    } else {
+      body.classList.remove('side-nav-open');
+    }
+    return () => body.classList.remove('side-nav-open');
+  }, [menuOpen]);
+
   // Sync submenu open state with URL
   useEffect(() => {
     setAboutOpen(location.pathname.startsWith('/about'));
@@ -183,6 +196,9 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   const handleToggleCookieBanner = () => {
     setShowCookieBanner(prev => !prev);
   };
+
+  const mainContentClassName = menuOpen ? 'main-content main-content--blurred' : 'main-content';
+  const cookieBannerClassName = menuOpen ? 'cookie-banner main-content main-content--blurred' : 'cookie-banner main-content';
 
   return (
     <div style={{ display: 'flex' }}>
@@ -283,9 +299,16 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
           )}
         </div>
       </nav>
+      {menuOpen && (
+        <div
+          className="side-nav-overlay"
+          onClick={() => setMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
       {/* Main content */}
       <div
-        className="main-content"
+        className={mainContentClassName}
         style={{ flex: 1, padding: '1rem' }}
         data-bs-theme={theme}
       >
@@ -340,7 +363,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
       </div>
       <LoadingBar color="#29d" height={3} ref={loadingRef} />
       {showCookieBanner && (
-        <div className="cookie-banner main-content" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#333', color:'white', padding: '1rem', borderTop: '1px solid #ccc', textAlign: 'center' }}>
+        <div className={cookieBannerClassName} style={{ position: 'fixed', bottom: 0, left: 0, right: 0, backgroundColor: '#333', color:'white', padding: '1rem', borderTop: '1px solid #ccc', textAlign: 'center' }}>
           <div>
             By continuing to use this website, you agree that this website can store cookies on this device.&nbsp;&nbsp;
           

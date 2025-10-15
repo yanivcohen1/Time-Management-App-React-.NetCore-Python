@@ -135,7 +135,10 @@ const TodoList: React.FC = () => {
             <Card.Body className={isDarkTheme ? 'bg-dark text-white' : undefined}>
               <Stack gap={3}>
                 {msg && (
-                  <Alert variant={isDarkTheme ? 'secondary' : 'info'} className={isDarkTheme ? 'mb-0 text-white bg-dark border-secondary' : 'mb-0'}>
+                  <Alert
+                    variant="info"
+                    className="mb-0"
+                  >
                     <strong>User message:</strong> {msg}
                   </Alert>
                 )}
