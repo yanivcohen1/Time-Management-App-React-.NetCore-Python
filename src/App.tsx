@@ -260,17 +260,18 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
               to="/about/1"
               className={({ isActive }) => isActive ? 'active' : undefined}
               onClick={() => setAboutOpen(prev => !prev)}
-              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '0.5rem' }}
             >
+              <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '0.25rem' }} />
+              <span style={{ flexGrow: 1, textAlign: 'left' }}>About</span>
               <FontAwesomeIcon
                 icon={faChevronRight}
                 style={{
-                  marginRight: '0.5rem',
+                  marginLeft: 'auto',
                   transform: aboutOpen ? 'rotate(90deg)' : 'rotate(0deg)',
                   transition: 'transform 0.2s ease'
                 }}
               />
-              <FontAwesomeIcon icon={faInfoCircle} style={{ marginRight: '0.5rem' }} /> About
             </NavLink>
             <Collapse in={aboutOpen} unmountOnExit>
               <div className="side-nav__submenu">
