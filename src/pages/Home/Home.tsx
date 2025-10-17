@@ -44,7 +44,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState<ToastPosition>("top-center");
   const toastContainerStyle: React.CSSProperties = {
-    zIndex: 1080,
+    zIndex: 1500,
     position: 'fixed',
     left: '50%',
     transform: 'translateX(-50%)',
@@ -53,7 +53,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const stickySaveWrapperStyle: React.CSSProperties = {
     position: 'sticky',
     top: '1rem',
-    zIndex: 1090
+    zIndex: 1200
   };
   const [showSelectBox, setShowSelectBox] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('one');
