@@ -194,3 +194,8 @@ code {
     pointer-events: none;
   }
 }
+
+/* Custom dropdown hover for darker background */
+.dropdown-item:hover {
+  background-color: #6c757d !important; /* darker gray */
+}

@@ -12,15 +12,16 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Collapse from 'react-bootstrap/Collapse';
 import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Toast from 'react-bootstrap/Toast';
 import ToastContainer, { ToastPosition } from 'react-bootstrap/ToastContainer';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 
 interface HomeProps {
   onToggleCookieBanner: () => void;
@@ -43,6 +44,9 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const isDarkTheme = theme === 'dark';
   const [showToast, setShowToast] = useState(false);
   const [position, setPosition] = useState<ToastPosition>("top-center");
+  const [selectedOption, setSelectedOption] = useState<string>('');
+  const [overlaySelection, setOverlaySelection] = useState<string>('');
+  const [showOverlay, setShowOverlay] = useState(false);
   const toastContainerStyle: React.CSSProperties = {
     zIndex: 1500,
     position: 'fixed',
@@ -55,9 +59,6 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
     top: '1rem',
     zIndex: 1200
   };
-  const [showSelectBox, setShowSelectBox] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>('one');
-  const [confirmedOption, setConfirmedOption] = useState<string>('');
   // Add sticky save message state and toast message state
   const [showStickySave, setShowStickySave] = useState(true);
   const [toastMessage, setToastMessage] = useState<string>('');
@@ -196,11 +197,6 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
                           {isCookieBannerVisible ? 'Hide' : 'Show'} Cookie Banner
                         </Button>
                       </div>
-                      <Card className={`mt-3 border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`}>
-                        <Card.Body>
-                          Cookie banner is currently <strong>{isCookieBannerVisible ? 'visible' : 'hidden'}</strong>.
-                        </Card.Body>
-                      </Card>
                     </div>
 
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
@@ -227,24 +223,51 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
                       </Card>
                     </Collapse>
 
-                    <Button onClick={() => { setShowToast(true); setPosition('bottom-center'); }}>
-                      Toast <strong>with</strong> Animation
-                    </Button>
-
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       <Button variant="outline-primary" onClick={() => setShowStickySave(true)}>
                         Show Save Sticky Message
                       </Button>
-                      <Button
-                        variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
-                        onClick={() => setShowSelectBox(true)}
-                      >
-                        Show Selection Modal
-                      </Button>
-                      {confirmedOption && (
-                        <span className="fw-bold text-success">Selected: {confirmedOption}</span>
-                      )}
                     </Stack>
+
+                    <div className="d-flex align-items-center gap-2">
+                      <Dropdown>
+                        <Dropdown.Toggle variant="primary" id="dropdown-basic">
+                          Select Option
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item onClick={() => setSelectedOption('save')}>Save</Dropdown.Item>
+                          <Dropdown.Item onClick={() => setSelectedOption('nosave')}>No Save</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                      {selectedOption && <span>Selected: {selectedOption}</span>}
+                    </div>
+
+                    <div className="d-flex align-items-center gap-2">
+                      <OverlayTrigger
+                        show={showOverlay}
+                        onToggle={setShowOverlay}
+                        trigger="click"
+                        placement="top"
+                        overlay={
+                          <Popover>
+                            <Popover.Body>
+                              <p>Save changes?</p>
+                              <div className="d-flex gap-2">
+                                <Button size="sm" variant="primary" onClick={() => {setOverlaySelection('Yes'); setShowOverlay(false);}}>Yes</Button>
+                                <Button size="sm" variant="secondary" onClick={() => {setOverlaySelection('No'); setShowOverlay(false);}}>No</Button>
+                              </div>
+                            </Popover.Body>
+                          </Popover>
+                        }
+                      >
+                        <Button variant="outline-warning">Show Save Overlay</Button>
+                      </OverlayTrigger>
+                      {overlaySelection && (
+                        <span className="p-2 mb-0" style={{ fontSize: '0.875rem' }}>
+                          Selection: {overlaySelection}
+                        </span>
+                      )}
+                    </div>
                   </Stack>
                 </Card.Body>
               </Card>
@@ -264,53 +287,6 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
             </li>
           </ul>
         </MyModal>
-
-        <Modal
-          show={showSelectBox}
-          onHide={() => setShowSelectBox(false)}
-          centered
-          contentClassName={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
-          data-bs-theme={theme}
-        >
-          <Modal.Header
-            closeButton
-            closeVariant={isDarkTheme ? 'white' : undefined}
-            className={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
-          >
-            <Modal.Title>Select an option</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className={isDarkTheme ? 'bg-dark text-white' : undefined}>
-            <Form>
-              <Form.Group controlId="selectOption">
-                <Form.Label className={isDarkTheme ? 'text-white' : undefined}>Available options</Form.Label>
-                <Form.Select
-                  value={selectedOption}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedOption(e.target.value)}
-                  className={isDarkTheme ? 'bg-dark text-white border-secondary' : undefined}
-                >
-                  <option value="one">One</option>
-                  <option value="two">Two</option>
-                  <option value="tree">Tree</option>
-                </Form.Select>
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer className={isDarkTheme ? 'bg-dark border-secondary' : undefined}>
-            <Button variant="secondary" onClick={() => setShowSelectBox(false)}>
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={() => {
-                setConfirmedOption(selectedOption);
-                console.log('Selected:', selectedOption);
-                setShowSelectBox(false);
-              }}
-            >
-              Accept
-            </Button>
-          </Modal.Footer>
-        </Modal>
 
         <TransitionGroup>
           <CSSTransition
