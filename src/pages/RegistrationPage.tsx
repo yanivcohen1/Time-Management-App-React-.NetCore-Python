@@ -8,6 +8,7 @@ import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { getData, saveData } from '../utils/storage';
+import { useTheme } from '../hooks/useTheme';
 import './RegistrationPage.css';
 
 interface RegistrationFormData {
@@ -52,6 +53,7 @@ const getStrengthColor = (strength: number): string => {
 
 const RegistrationPage: React.FC = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
   const [formData, setFormData] = useState<RegistrationFormData>({
     username: '',
     groupName: '',
@@ -200,11 +202,11 @@ const RegistrationPage: React.FC = () => {
   const isSubmitDisabled = hasErrors || (Object.values(formData) as string[]).some(value => !value.trim());
 
   return (
-    <div className="registration-page">
+    <div className={`registration-page ${theme === 'dark' ? 'dark' : ''}`} data-bs-theme={theme}>
       <Container>
         <Row className="justify-content-center">
           <Col xs={12} md={10} lg={8} xl={6}>
-            <Card className="registration-card">
+            <Card className="registration-card mx-auto">
               <Card.Body>
                 <h1 className="registration-title">Registration</h1>
                 <Form className="registration-form" onSubmit={handleSubmit} noValidate>

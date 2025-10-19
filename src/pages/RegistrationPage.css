@@ -4,8 +4,12 @@
   align-items: flex-start;
   justify-content: center;
   padding: 2rem 1rem 3rem;
-  background-color: var(--bs-body-bg);
+  background-color: #333;
   color: var(--bs-body-color);
+}
+
+.registration-page.dark {
+  background-color: #212529;
 }
 
 .registration-card {
