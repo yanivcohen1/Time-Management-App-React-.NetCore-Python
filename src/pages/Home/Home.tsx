@@ -56,7 +56,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   };
   const stickySaveWrapperStyle: React.CSSProperties = {
     position: 'sticky',
-    top: '1rem',
+    top: '0.3rem',
     zIndex: 1200
   };
   // Add sticky save message state and toast message state
