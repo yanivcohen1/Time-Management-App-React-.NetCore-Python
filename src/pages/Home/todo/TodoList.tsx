@@ -147,9 +147,11 @@ const TodoList: React.FC = () => {
                   <FontAwesomeIcon icon={faListCheck} />
                   <span>To-Do List</span>
                 </h3>
-                <Badge bg="primary" pill>
-                  {todos.length}
-                </Badge>
+                <div className="d-flex gap-2">
+                  <Badge bg="success" pill>
+                    Active: {activeCount}
+                  </Badge>
+                </div>
               </div>
             </Card.Header>
             <Card.Body className={isDarkTheme ? 'bg-dark text-white' : undefined}>
