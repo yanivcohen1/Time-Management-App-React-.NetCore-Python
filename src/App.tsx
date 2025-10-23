@@ -45,11 +45,6 @@ const App: React.FC = () => {
     const resId = axios.interceptors.response.use(
       (res: AxiosResponse) => {
         loadingRef.current.complete();
-        const authHeader = res.headers['authorization'] || (res.data && (res.data.token || res.data.jwt));
-        if (authHeader) {
-          const tokenValue = authHeader.toString().startsWith('Bearer ') ? authHeader.toString().split(' ')[1] : authHeader.toString();
-          saveData('jwt', tokenValue);
-        }
         return res;
       },
       (err) => {
