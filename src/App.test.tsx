@@ -3,6 +3,8 @@ import { render, screen } from '@testing-library/react';
 import Home from './pages/Home/Home';
 import { MemoryRouter } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import { AuthProvider } from './auth/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 
 // Mock axios to avoid external calls
 jest.mock('axios');
@@ -18,9 +20,13 @@ jest.mock('react-router-dom', () => ({
 test('renders Home Set AppContext button', () => {
   render(
     <AppProvider>
-      <MemoryRouter>
-        <Home onToggleCookieBanner={() => {}} isCookieBannerVisible={false} />
-      </MemoryRouter>
+      <AuthProvider>
+        <ToastProvider>
+          <MemoryRouter>
+            <Home onToggleCookieBanner={() => {}} isCookieBannerVisible={false} />
+          </MemoryRouter>
+        </ToastProvider>
+      </AuthProvider>
     </AppProvider>
   );
   const linkElement = screen.getByText(/Set AppContext/i);
