@@ -10,6 +10,7 @@ import About from './pages/About/About';
 import AboutMe from './pages/About/about-me/AboutMe';
 import { useAuth } from './auth/AuthContext';
 import { PrivateRoute } from './routes/PrivateRoute';
+import { ToastProvider } from './context/ToastContext';
 import AdminPage from './pages/AdminPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
@@ -60,9 +61,11 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <Router>
-      <InnerApp loadingRef={loadingRef} />
-    </Router>
+    <ToastProvider>
+      <Router>
+        <InnerApp loadingRef={loadingRef} />
+      </Router>
+    </ToastProvider>
   );
 };
 

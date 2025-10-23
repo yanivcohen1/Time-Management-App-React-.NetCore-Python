@@ -15,8 +15,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
-import Toast from 'react-bootstrap/Toast';
-import ToastContainer, { ToastPosition } from 'react-bootstrap/ToastContainer';
+import { useToast } from "../../context/ToastContext";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
@@ -42,18 +41,10 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const isDarkTheme = theme === 'dark';
-  const [showToast, setShowToast] = useState(false);
-  const [position, setPosition] = useState<ToastPosition>("top-center");
   const [selectedOption, setSelectedOption] = useState<string>('');
   const [overlaySelection, setOverlaySelection] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState(false);
-  const toastContainerStyle: React.CSSProperties = {
-    zIndex: 1500,
-    position: 'fixed',
-    left: '50%',
-    transform: 'translateX(-50%)',
-    ...(position.includes('bottom') ? { bottom: '1rem' } : { top: '1rem' })
-  };
+  const { showToast } = useToast();
   const stickySaveWrapperStyle: React.CSSProperties = {
     position: 'sticky',
     top: '0.3rem',
@@ -61,9 +52,6 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   };
   // Add sticky save message state and toast message state
   const [showStickySave, setShowStickySave] = useState(true);
-  const [toastMessage, setToastMessage] = useState<string>('');
-  type ToastVariant = 'dark' | 'success' | 'danger' | 'secondary';
-  const [toastVariant, setToastVariant] = useState<ToastVariant>('dark');
   interface ApiResponse {
     message: string;
   }
@@ -104,10 +92,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const fetchData = async () => {
     try {
       const { data } = await axios.get<ApiResponse>('/api/data');
-      setToastMessage(data.message);
-      setToastVariant('success');
-      setPosition('top-center');
-      setShowToast(true);
+      showToast(data.message, 'success', 'top-center');
     } catch (e) {
       console.error(e);
       let errorMessage = 'Failed to fetch data';
@@ -117,19 +102,13 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
       } else if (e instanceof Error) {
         errorMessage = e.message;
       }
-      setToastMessage(errorMessage);
-      setToastVariant('danger');
-      setPosition('top-center');
-      setShowToast(true);
+      showToast(errorMessage, 'danger', 'top-center');
     }
   };
 
   // Handler for save confirmation
   const handleSave = (confirm: boolean) => {
-    setToastMessage(confirm ? 'Saved successfully!' : 'Save cancelled');
-    setToastVariant(confirm ? 'success' : 'secondary');
-    setPosition('bottom-center');
-    setShowToast(true);
+    showToast(confirm ? 'Saved successfully!' : 'Save cancelled', confirm ? 'success' : 'secondary', 'bottom-center');
     setShowStickySave(false);
   };
 
@@ -216,7 +195,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
                       <Card className={`border-0 ${isDarkTheme ? 'bg-dark text-white' : 'bg-light'}`} id="example-collapse-text">
                         <Card.Body className={isDarkTheme ? 'text-white' : undefined}>
                           <p className="mb-2">This is the content inside the div that can be collapsed.</p>
-                          <Button onClick={() => { setShowToast(true); setPosition('top-center'); }} className="mb-2">
+                          <Button onClick={() => showToast('Toast message', 'dark', 'top-center')} className="mb-2">
                             Toast
                           </Button>
                         </Card.Body>
@@ -305,17 +284,6 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
           </CSSTransition>
         </TransitionGroup>
 
-        <ToastContainer className="p-3" position={position} style={toastContainerStyle}>
-          <Toast show={showToast} onClose={() => setShowToast(false)} delay={3000} bg={toastVariant} autohide>
-            <Toast.Header>
-              <strong className="me-auto">System Message</strong>
-              <small></small>
-            </Toast.Header>
-            <Toast.Body className="text-white d-flex justify-content-between align-items-center gap-3">
-              <span>{toastMessage}</span>
-            </Toast.Body>
-          </Toast>
-        </ToastContainer>
       </Container>
     </>
   );
