@@ -1,13 +1,14 @@
 // auth/AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { saveData, getData } from '../utils/storage';
+import axios from 'axios';
 
 type UserRole = 'admin' | 'user' | 'guest';
 
 interface AuthContextType {
     isAuthenticated: boolean;
     role: UserRole;
-    login: (role: UserRole) => void;
+    login: (username: string, password: string) => Promise<void>;
     logout: () => void;
 }
 
@@ -30,10 +31,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return stored ? stored.role : 'guest';
     });
 
-    const login = (newRole: UserRole) => {
-        setIsAuthenticated(true);
-        setRole(newRole);
-        saveData('auth', { isAuthenticated: true, role: newRole });
+    const login = async (username: string, password: string) => {
+        try {
+            const response = await axios.post('/api/auth/login', { username, password });
+            const { token } = response.data;
+            if (token) {
+                saveData('jwt', token);
+            }
+            // Determine role based on username
+            const role: UserRole = username.includes('admin') ? 'admin' : 'user';
+            setIsAuthenticated(true);
+            setRole(role);
+            saveData('auth', { isAuthenticated: true, role });
+        } catch (error) {
+            console.error('Login failed:', error);
+            throw error;
+        }
     };
 
     const logout = () => {
