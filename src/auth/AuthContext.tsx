@@ -34,9 +34,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (username: string, password: string) => {
         try {
             const response = await axios.post('/api/auth/login', { username, password });
-            const { accessToken, role } = response.data;
-            if (accessToken) {
-                saveData('jwt', accessToken);
+            const { access_token, role } = response.data;
+            if (access_token) {
+                saveData('jwt', access_token);
             }
             // Use role from response, normalized to lowercase
             const userRole: UserRole = role.toLowerCase() as UserRole;

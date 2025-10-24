@@ -123,7 +123,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   }, [theme]);
 
   useEffect(() => {
-    // Load config and set axios baseURL
+    // Load config and set axios baseURL (only once on mount)
     fetch('/config.yaml')
       .then(response => response.text())
       .then(yamlText => {
@@ -139,7 +139,9 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
         console.error('Failed to load config.yaml:', error);
         axios.defaults.baseURL = 'http://localhost:5000';
       });
+  }, []);
 
+  useEffect(() => {
     // start on any request
     const reqId = axios.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
