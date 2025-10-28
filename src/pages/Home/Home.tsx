@@ -50,8 +50,27 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
     top: '0.3rem',
     zIndex: 1200
   };
+  const fixedTopStyle: React.CSSProperties = {
+    position: 'fixed',
+    top: '0.3rem',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 1200,
+    width: 'fit-content',
+    maxWidth: '100%'
+  };
+  const fixedBottomStyle: React.CSSProperties = {
+    position: 'fixed',
+    bottom: '0.3rem',
+    left: '50%',
+    transform: 'translateX(-50%)',
+    zIndex: 1200,
+    width: 'fit-content',
+    maxWidth: '100%'
+  };
   // Add sticky save message state and toast message state
   const [showStickySave, setShowStickySave] = useState(true);
+  const [stickyPosition, setStickyPosition] = useState<'current' | 'top' | 'bottom'>('current');
   interface ApiResponse {
     message: string;
   }
@@ -119,19 +138,43 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
 
   return (
     <>
-      {showStickySave && (
+      {showStickySave && stickyPosition === 'current' && (
         <Container fluid="lg" className="my-2 d-flex justify-content-center" style={stickySaveWrapperStyle}>
           <div
             className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
             style={{ width: 'fit-content', maxWidth: '100%', padding: '0.5rem 0.75rem' }}
           >
-            <span className="fw-semibold">Do you want to save changes?</span>
+            <span className="fw-semibold">Save changes?</span>
             <div className="d-flex gap-2">
               <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
               <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
             </div>
           </div>
         </Container>
+      )}
+      {showStickySave && stickyPosition === 'top' && (
+        <div
+          className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
+          style={fixedTopStyle}
+        >
+          <span className="fw-semibold">Save changes?</span>
+          <div className="d-flex gap-2">
+            <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
+            <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
+          </div>
+        </div>
+      )}
+      {showStickySave && stickyPosition === 'bottom' && (
+        <div
+          className="alert alert-primary mb-0 d-flex justify-content-between align-items-center gap-3 shadow-sm py-2 px-3"
+          style={fixedBottomStyle}
+        >
+          <span className="fw-semibold">Save changes?</span>
+          <div className="d-flex gap-2">
+            <Button size="sm" variant="primary" onClick={() => handleSave(true)}>Yes</Button>
+            <Button size="sm" variant="secondary" onClick={() => handleSave(false)}>No</Button>
+          </div>
+        </div>
       )}
 
       <Container
@@ -206,6 +249,16 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
                       <Button variant="outline-primary" onClick={() => setShowStickySave(true)}>
                         Show Save Sticky Message
                       </Button>
+                      <Dropdown>
+                        <Dropdown.Toggle variant="outline-secondary" id="sticky-position-dropdown">
+                          Position: {stickyPosition}
+                        </Dropdown.Toggle>
+                        <Dropdown.Menu>
+                          <Dropdown.Item onClick={() => setStickyPosition('current')}>Current</Dropdown.Item>
+                          <Dropdown.Item onClick={() => setStickyPosition('top')}>Stick to Top</Dropdown.Item>
+                          <Dropdown.Item onClick={() => setStickyPosition('bottom')}>Stick to Bottom</Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
                     </Stack>
 
                     <div className="d-flex align-items-center gap-2">
