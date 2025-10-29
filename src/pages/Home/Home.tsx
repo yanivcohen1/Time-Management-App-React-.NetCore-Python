@@ -226,7 +226,7 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
 
                     <Stack direction="horizontal" gap={2} className="flex-wrap">
                       <Button variant="primary" onClick={() => setIsModalOpen(true)}>Open Custom Modal</Button>
-                      <Button variant="outline-secondary" onClick={fetchData}>Fetch Data</Button>
+                      <Button variant="outline-secondary" onClick={fetchData}>Fetch Data</Button><br />
                       <Button
                         variant={isDarkTheme ? 'outline-light' : 'outline-dark'}
                         onClick={() => setOpen(!open)}
