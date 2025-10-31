@@ -23,6 +23,7 @@ import { faHome, faUser, faList } from '@fortawesome/free-solid-svg-icons';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import CustomButton from '../../components/CustomButton';
+import CustomSelect, { Option } from '../../components/CustomSelect';
 
 interface HomeProps {
   onToggleCookieBanner: () => void;
@@ -75,6 +76,14 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
   const [showStickySave, setShowStickySave] = useState(true);
   const [stickyMsg, setStickyMsg] = useState(true);
   const [stickyPosition, setStickyPosition] = useState<'current' | 'top' | 'bottom'>('current');
+  const [selectedFruit, setSelectedFruit] = useState<string>("apple");
+
+  const fruits: Option[] = [
+    { label: "🍎 Apple", value: "apple" },
+    { label: "🍌 Banana", value: "banana" },
+    { label: "🍊 Orange", value: "orange" },
+    { label: "🍇 Grape", value: "grape" },
+  ];
   interface ApiResponse {
     message: string;
   }
@@ -314,6 +323,19 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
                       onClick={updateI}
                       label='My costum botton'
                     />
+                    <div className="d-flex flex-column align-items-center justify-content-center gap-3 p-4">
+
+                      <CustomSelect
+                        label="My costom select fruit"
+                        options={fruits}
+                        value={selectedFruit}
+                        onChange={setSelectedFruit}
+                      />
+
+                      <p className="text-lg mt-4">
+                        You selected: <span className="font-semibold">{selectedFruit}</span>
+                      </p>
+                    </div>
                   </Stack>
                 </Card.Body>
               </Card>
