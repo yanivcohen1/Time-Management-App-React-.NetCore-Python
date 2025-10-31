@@ -15,7 +15,7 @@ const AdminPage: React.FC = () => {
             showToast(`Reports: ${JSON.stringify(response.data)}`, 'success', 'top-end');
         } catch (error) {
             console.error('Error fetching reports:', error);
-            showToast('Failed to fetch reports', 'danger', 'top-end');
+            //showToast('Failed to fetch reports', 'danger', 'top-end');
         }
     };
 
