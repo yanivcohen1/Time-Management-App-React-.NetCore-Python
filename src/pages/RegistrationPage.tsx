@@ -7,7 +7,7 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { getData, saveData } from '../utils/storage';
+import { getlocalStorage, savelocalStorage } from '../utils/storage';
 import { useTheme } from '../hooks/useTheme';
 import './RegistrationPage.css';
 
@@ -154,7 +154,7 @@ const RegistrationPage: React.FC = () => {
 
     if (!validateForm()) return;
 
-    const existingUsers = getData<RegisteredUser[]>('registeredUsers') ?? [];
+    const existingUsers = getlocalStorage<RegisteredUser[]>('registeredUsers') ?? [];
     const usernameTaken = existingUsers.some(user => user.username.toLowerCase() === formData.username.trim().toLowerCase());
     const emailTaken = existingUsers.some(user => user.email.toLowerCase() === formData.email.trim().toLowerCase());
 
@@ -176,7 +176,7 @@ const RegistrationPage: React.FC = () => {
       createdAt: new Date().toISOString()
     };
 
-    saveData('registeredUsers', [...existingUsers, newUser]);
+    savelocalStorage('registeredUsers', [...existingUsers, newUser]);
     resetForm();
     setStatus({ variant: 'success', message: 'Registration complete! You can log in with your new credentials.' });
   };

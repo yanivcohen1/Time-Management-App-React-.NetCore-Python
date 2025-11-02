@@ -1,12 +1,16 @@
 let global: any = undefined;
 
-export const saveData = (key: string, data: any): void => {
+export const savelocalStorage = (key: string, data: any): void => {
     localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const getData = <T>(key: string): T | null => {
+export const getlocalStorage = <T>(key: string): T | null => {
     const item = localStorage.getItem(key);
     return item ? (JSON.parse(item) as T) : null;
+};
+
+export const removelocaStorage = (key: string): void => {
+    localStorage.removeItem(key);
 };
 
 export const setGlobal = (global_: any): void => {
@@ -16,7 +20,3 @@ export const setGlobal = (global_: any): void => {
 export const getGlobal = <T>(): T => {
     return global as T;
 }
-
-export const removeData = (key: string): void => {
-    localStorage.removeItem(key);
-};

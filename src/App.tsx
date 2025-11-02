@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useMemo } from 'react';
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import axios, { AxiosResponse, InternalAxiosRequestConfig, AxiosRequestHeaders } from 'axios';
-import { getData, saveData } from './utils/storage';
+import { getlocalStorage, savelocalStorage } from './utils/storage';
 import LoadingBar from 'react-top-loading-bar';
 import yaml from 'js-yaml';
 import Home from "./pages/Home/Home";
@@ -50,7 +50,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   const [aboutOpen, setAboutOpen] = useState(false);
   const [showCookieBanner, setShowCookieBanner] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    const storedTheme = getData<string>('theme');
+    const storedTheme = getlocalStorage<string>('theme');
     return storedTheme === 'dark' ? 'dark' : 'light';
   });
   const location = useLocation();
@@ -90,7 +90,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   }, [location.pathname]);
 
   useEffect(() => {
-    const consent = getData<boolean>('cookieConsent');
+    const consent = getlocalStorage<boolean>('cookieConsent');
     if (consent !== true) {
       setShowCookieBanner(true);
     }
@@ -109,7 +109,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
       rootContainer.setAttribute('data-bs-theme', theme);
     }
 
-    saveData('theme', theme);
+    savelocalStorage('theme', theme);
 
     return () => {
       root.removeAttribute('data-bs-theme');
@@ -146,7 +146,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
     const reqId = axios.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
         loadingRef.current.continuousStart();
-        const token = getData<string>(JWT_KEY);
+        const token = getlocalStorage<string>(JWT_KEY);
         if (token) {
           if (!config.headers) config.headers = {} as AxiosRequestHeaders;
           config.headers.Authorization = `Bearer ${token}`;
@@ -211,7 +211,7 @@ const InnerApp: React.FC<InnerAppProps> = ({ loadingRef }) => {
   const showHomeBreadcrumb = location.pathname.startsWith('/home');
 
   const handleAcceptCookies = () => {
-    saveData('cookieConsent', true);
+    savelocalStorage('cookieConsent', true);
     setShowCookieBanner(false);
   };
 

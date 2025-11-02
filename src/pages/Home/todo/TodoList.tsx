@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent, useMemo, useRef, createRef } from 'react';
-import { getData, saveData } from "../../../utils/storage"; // for data localstorage
+import { getlocalStorage, savelocalStorage } from "../../../utils/storage"; // for data localstorage
 import { useAppContext } from "../../../context/AppContext"; // for events updates
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import Button from "react-bootstrap/Button";
@@ -37,7 +37,7 @@ const TodoList: React.FC = () => {
   const initTodo = (): Todo[] => {
     let todos: Todo[] = []
     try {
-      const storedTodos = getData<Todo[]>('todos')// localStorage.getItem('todos');
+      const storedTodos = getlocalStorage<Todo[]>('todos')// localStorage.getItem('todos');
       if (storedTodos) {
           todos = storedTodos.map(todo => ({ ...todo, completed: todo.completed ?? false }));
       }
@@ -71,7 +71,7 @@ const TodoList: React.FC = () => {
   // Save todos to localStorage
   useEffect(() => {
     try {
-      saveData('todos', todos); // localStorage.setItem('todos', JSON.stringify(todos));
+      savelocalStorage('todos', todos); // localStorage.setItem('todos', JSON.stringify(todos));
     } catch (error) {
       console.error('Error saving todos to localStorage:', error);
     }
