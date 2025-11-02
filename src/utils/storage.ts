@@ -16,3 +16,7 @@ export const setGlobal = (global_: any): void => {
 export const getGlobal = <T>(): T => {
     return global as T;
 }
+
+export const removeData = (key: string): void => {
+    localStorage.removeItem(key);
+};

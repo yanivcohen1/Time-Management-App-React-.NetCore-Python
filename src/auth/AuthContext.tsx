@@ -1,6 +1,6 @@
 // auth/AuthContext.tsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { saveData, getData } from '../utils/storage';
+import { saveData, getData, removeData } from '../utils/storage';
 import axios from 'axios';
 
 type UserRole = 'admin' | 'user' | 'guest';
@@ -53,6 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setIsAuthenticated(false);
         setRole('guest');
         saveData('auth', { isAuthenticated: false, role: 'guest' });
+        removeData('jwt');
     };
 
     return (
