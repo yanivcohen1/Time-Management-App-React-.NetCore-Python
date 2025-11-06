@@ -16,12 +16,19 @@ A modern React application built with TypeScript and Vite, featuring a todo list
 
 ## Project Structure
 
-- `src/pages/`: Page components with nested routes
-- `src/auth/`: Authentication context and logic
-- `src/context/`: App-wide state management
-- `src/utils/`: Utility functions and storage helpers
-- `src/hooks/`: Custom React hooks
-- `public/config.yaml`: Configuration file for server port and backend URL
+- `src/`
+  - `pages/`: Page components with nested routes (Home, About, Login, etc.)
+  - `auth/`: Authentication context and logic (AuthContext)
+  - `context/`: App-wide state management (AppContext, ToastContext)
+  - `components/`: Reusable UI components (CustomButton, CustomSelect)
+  - `routes/`: Route protection components (PrivateRoute)
+  - `utils/`: Utility functions, storage helpers, and modal components (storage.ts, Modal.tsx)
+  - `hooks/`: Custom React hooks (useTheme)
+  - `animation/`: CSS animation styles (fade.css, slide-right.css)
+  - `assets/`: Static assets
+  - `__mocks__/`: Test mocks (axios.js)
+- `public/`: Public assets and configuration files (config.yaml, index.html, manifest.json, robots.txt)
+- `build/`: Production build output
 
 ## Available Scripts
 
