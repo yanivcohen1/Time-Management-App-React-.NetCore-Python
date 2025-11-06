@@ -7,7 +7,7 @@
         {
             "name": "Launch Chrome against localhost",
             "type": "chrome",
-            "request": "launch",// first you need "yarn start" in cmd
+            "request": "launch",// first you need "pnpm dev" in cmd
             "url": "http://localhost:3001", 
             "sourceMaps": true,
             "webRoot": "${workspaceFolder}/src"
