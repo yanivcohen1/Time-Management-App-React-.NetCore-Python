@@ -1,4 +1,4 @@
-# React + TypeScript + Vite Todo App
+# React + TypeScript + Vite App
 
 A modern React application built with TypeScript, featuring a todo list, user authentication, role-based access control, and nested routing. The app uses Bootstrap for styling, PrimeReact components, and Axios for API calls.
 
