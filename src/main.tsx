@@ -4,13 +4,21 @@ import MockAdapter from 'axios-mock-adapter';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "primereact/resources/themes/lara-light-cyan/theme.css";
 import "primeicons/primeicons.css";
+import aura from '@primeuix/themes/aura';
+import { useTheme as applyPrimeTheme } from '@primeuix/themes';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AppProvider } from "./context/AppContext";
 import { AuthProvider } from "./auth/AuthContext";
 import { PrimeReactProvider} from 'primereact/api';
+
+applyPrimeTheme({
+  preset: aura,
+  options: {
+    darkModeSelector: '[data-bs-theme=dark]'
+  }
+});
 
 console.log("✅ AppProvider mounted");
 // mock a 1.5s delay for GET /api/data
