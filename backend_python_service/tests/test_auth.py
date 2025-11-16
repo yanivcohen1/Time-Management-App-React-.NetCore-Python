@@ -1,6 +1,14 @@
+import sys
+from pathlib import Path
+
+# Ensure package imports work when the file is executed directly (debug runs, `python app/main.py`, etc.).
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 from fastapi.testclient import TestClient
 
-from app.main import app
+from backend_python_service.app.main import app
 
 client = TestClient(app)
 
