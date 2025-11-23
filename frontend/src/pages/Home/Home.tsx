@@ -458,13 +458,17 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
             </Grid>
           )}
           
-          <Grid size={{ xs: 12 }}>
+          <Grid size={{ xs: 12, md: 12, lg: 12 }}>
             <TransitionGroup component={null}>
               <CSSTransition
                 key={location.key}
-                classNames="fade"
+                classNames="slide"
                 timeout={300}
                 nodeRef={outletRef}
+                exit={false}
+                appear
+                mountOnEnter
+                unmountOnExit
               >
                 <div ref={outletRef}>
                   <Outlet />

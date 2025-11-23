@@ -146,177 +146,179 @@ const TodoList: React.FC = () => {
   const nodeRefs = useRef<Record<string, React.RefObject<HTMLLIElement>>>({});
 
   return (
-    <Container maxWidth="lg" sx={{ py: 0 }}>
-      <Grid container justifyContent="center">
-        <Grid size={{ xs: 12, md: 12, lg: 12, xl: 12 }}>
-          <Card sx={{ boxShadow: 1 }}>
-            <CardHeader
-              title={
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    <FontAwesomeIcon icon={faListCheck} />
-                    <Typography variant="h5" component="span">To-Do List</Typography>
+    <Grid size={{ xs: 12 }}>
+      <Container maxWidth="lg" sx={{ py: 0 }}>
+        <Grid container justifyContent="center">
+          <Grid size={{ xs: 12, md: 12, lg: 12, xl: 12 }}>
+            <Card sx={{ boxShadow: 1 }}>
+              <CardHeader
+                title={
+                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                      <FontAwesomeIcon icon={faListCheck} />
+                      <Typography variant="h5" component="span">To-Do List</Typography>
+                    </Box>
+                    <Chip label={`Active: ${activeCount}`} color="success" size="small" />
                   </Box>
-                  <Chip label={`Active: ${activeCount}`} color="success" size="small" />
-                </Box>
-              }
-            />
-            <CardContent>
-              <Stack spacing={3}>
-                {msg && (
-                  <Alert severity="info">
-                    <strong>User message:</strong> {msg}
-                  </Alert>
-                )}
+                }
+              />
+              <CardContent>
+                <Stack spacing={3}>
+                  {msg && (
+                    <Alert severity="info">
+                      <strong>User message:</strong> {msg}
+                    </Alert>
+                  )}
 
-                <Box component="form">
-                  <Grid container spacing={3} alignItems="flex-end">
-                    <Grid size={{ md: 8 }}>
-                      <TextField
-                        fullWidth
-                        id="todoInput"
-                        label="Add a task"
-                        placeholder="Enter a to-do item"
-                        value={input}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
-                      />
+                  <Box component="form">
+                    <Grid container spacing={3} alignItems="flex-end">
+                      <Grid size={{ md: 8 }}>
+                        <TextField
+                          fullWidth
+                          id="todoInput"
+                          label="Add a task"
+                          placeholder="Enter a to-do item"
+                          value={input}
+                          onChange={(e: ChangeEvent<HTMLInputElement>) => setInput(e.target.value)}
+                        />
+                      </Grid>
+                      <Grid size={{ md: 4 }}>
+                        <Button
+                          variant="contained"
+                          onClick={handleAdd}
+                          disabled={!input.trim()}
+                          fullWidth
+                          sx={{ height: '56px' }} // Match TextField height
+                        >
+                          Add Item
+                        </Button>
+                      </Grid>
                     </Grid>
-                    <Grid size={{ md: 4 }}>
-                      <Button
-                        variant="contained"
-                        onClick={handleAdd}
-                        disabled={!input.trim()}
-                        fullWidth
-                        sx={{ height: '56px' }} // Match TextField height
-                      >
-                        Add Item
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Box>
+                  </Box>
 
-                <Box>
-                  <TextField
-                    fullWidth
-                    id="todoSearch"
-                    label="Search your todos"
-                    placeholder="Type to search..."
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                    slotProps={{
-                      input: {
-                        startAdornment: <InputAdornment position="start">Search</InputAdornment>,
-                      },
-                    }}
-                  />
-                </Box>
+                  <Box>
+                    <TextField
+                      fullWidth
+                      id="todoSearch"
+                      label="Search your todos"
+                      placeholder="Type to search..."
+                      value={query}
+                      onChange={e => setQuery(e.target.value)}
+                      slotProps={{
+                        input: {
+                          startAdornment: <InputAdornment position="start">Search</InputAdornment>,
+                        },
+                      }}
+                    />
+                  </Box>
 
-                <Tabs
-                  value={activeTab}
-                  onChange={(_, newValue) => setActiveTab(newValue)}
-                  centered
-                  sx={{ mb: 3 }}
-                >
-                  <Tab label={`All (${allCount})`} value="all" />
-                  <Tab label={`Active (${activeCount})`} value="active" />
-                  <Tab label={`Complete (${completeCount})`} value="complete" />
-                </Tabs>
+                  <Tabs
+                    value={activeTab}
+                    onChange={(_, newValue) => setActiveTab(newValue)}
+                    centered
+                    sx={{ mb: 3 }}
+                  >
+                    <Tab label={`All (${allCount})`} value="all" />
+                    <Tab label={`Active (${activeCount})`} value="active" />
+                    <Tab label={`Complete (${completeCount})`} value="complete" />
+                  </Tabs>
 
-                <Card variant="outlined">
-                  <CardContent sx={{ p: 0 }}>
-                    <List>
-                      <TransitionGroup component={null}>
-                        {filtered.map(todo => {
-                          let ref: React.RefObject<HTMLLIElement>;
-                          if (nodeRefs.current[todo.id]) {
-                            ref = nodeRefs.current[todo.id];
-                          } else {
-                            ref = createRef<HTMLLIElement>() as React.RefObject<HTMLLIElement>;
-                            nodeRefs.current[todo.id] = ref;
-                          }
+                  <Card variant="outlined">
+                    <CardContent sx={{ p: 0 }}>
+                      <List>
+                        <TransitionGroup component={null}>
+                          {filtered.map(todo => {
+                            let ref: React.RefObject<HTMLLIElement>;
+                            if (nodeRefs.current[todo.id]) {
+                              ref = nodeRefs.current[todo.id];
+                            } else {
+                              ref = createRef<HTMLLIElement>() as React.RefObject<HTMLLIElement>;
+                              nodeRefs.current[todo.id] = ref;
+                            }
 
-                          return (
-                            <CSSTransition key={todo.id} nodeRef={ref} timeout={500} classNames="slide">
-                              <ListItem
-                                ref={ref}
-                                divider
-                                secondaryAction={
-                                  <Button
-                                    variant="outlined"
-                                    color="error"
-                                    size="small"
-                                    onClick={() => handleDeleteRequest(todo)}
-                                  >
-                                    Delete
-                                  </Button>
-                                }
-                              >
-                                <Checkbox
-                                  edge="start"
-                                  checked={todo.completed}
-                                  onChange={() => handleToggleComplete(todo.id)}
-                                />
-                                <Typography
-                                  sx={{
-                                    textDecoration: todo.completed ? 'line-through' : 'none',
-                                    opacity: todo.completed ? 0.6 : 1,
-                                    flexGrow: 1,
-                                    ml: 2
-                                  }}
+                            return (
+                              <CSSTransition key={todo.id} nodeRef={ref} timeout={500} classNames="slide">
+                                <ListItem
+                                  ref={ref}
+                                  divider
+                                  secondaryAction={
+                                    <Button
+                                      variant="outlined"
+                                      color="error"
+                                      size="small"
+                                      onClick={() => handleDeleteRequest(todo)}
+                                    >
+                                      Delete
+                                    </Button>
+                                  }
                                 >
-                                  {todo.text}
-                                </Typography>
-                              </ListItem>
-                            </CSSTransition>
-                          );
-                        })}
-                      </TransitionGroup>
-                      {filtered.length === 0 && (
-                        <ListItem sx={{ justifyContent: 'center', py: 4 }}>
-                          <Typography color="textSecondary">
-                            Nothing to show yet. Try adding a new task above!
-                          </Typography>
-                        </ListItem>
-                      )}
-                    </List>
-                  </CardContent>
-                </Card>
-              </Stack>
+                                  <Checkbox
+                                    edge="start"
+                                    checked={todo.completed}
+                                    onChange={() => handleToggleComplete(todo.id)}
+                                  />
+                                  <Typography
+                                    sx={{
+                                      textDecoration: todo.completed ? 'line-through' : 'none',
+                                      opacity: todo.completed ? 0.6 : 1,
+                                      flexGrow: 1,
+                                      ml: 2
+                                    }}
+                                  >
+                                    {todo.text}
+                                  </Typography>
+                                </ListItem>
+                              </CSSTransition>
+                            );
+                          })}
+                        </TransitionGroup>
+                        {filtered.length === 0 && (
+                          <ListItem sx={{ justifyContent: 'center', py: 4 }}>
+                            <Typography color="textSecondary">
+                              Nothing to show yet. Try adding a new task above!
+                            </Typography>
+                          </ListItem>
+                        )}
+                      </List>
+                    </CardContent>
+                  </Card>
+                </Stack>
 
-              <Dialog
-                open={showDeleteModal}
-                onClose={handleCancelDelete}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  Confirm delete
-                </DialogTitle>
-                <DialogContent>
-                  <Typography>
-                    {todoToDelete ? (
-                      <>
-                        Are you sure you want to delete <strong>{todoToDelete.text}</strong>?
-                      </>
-                    ) : (
-                      'No item selected for deletion.'
-                    )}
-                  </Typography>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCancelDelete} color="inherit">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleConfirmDelete} color="error" autoFocus>
-                    Delete
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </CardContent>
-          </Card>
+                <Dialog
+                  open={showDeleteModal}
+                  onClose={handleCancelDelete}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">
+                    Confirm delete
+                  </DialogTitle>
+                  <DialogContent>
+                    <Typography>
+                      {todoToDelete ? (
+                        <>
+                          Are you sure you want to delete <strong>{todoToDelete.text}</strong>?
+                        </>
+                      ) : (
+                        'No item selected for deletion.'
+                      )}
+                    </Typography>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCancelDelete} color="inherit">
+                      Cancel
+                    </Button>
+                    <Button onClick={handleConfirmDelete} color="error" autoFocus>
+                      Delete
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </Grid>
   );
 };
 
