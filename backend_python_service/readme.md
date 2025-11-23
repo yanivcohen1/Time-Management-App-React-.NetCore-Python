@@ -76,11 +76,11 @@ python app/main.py --env prod   # Production
 
 The API will be available at `http://localhost:5000` (dev) or the configured production URL.
 
-API Documentation with Swagger
+## API Documentation with Swagger
 
 When running in development mode, the API provides interactive documentation via Swagger UI.
 
-Accessing Swagger UI
+### Accessing Swagger UI
 
 Start the application in development mode
 
