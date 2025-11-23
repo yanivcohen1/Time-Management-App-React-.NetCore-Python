@@ -12,7 +12,14 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddYamlFile("appsettings.yaml", optional: true, reloadOnChange: true);
+// Parse environment from command line args, default to dev
+string env = "dev";
+if (args.Length >= 2 && args[0] == "--env")
+{
+    env = args[1];
+}
+
+builder.Configuration.AddYamlFile($"{env}.appsettings.yaml", optional: true, reloadOnChange: true);
 
 // Configure server URLs from YAML
 var urls = builder.Configuration["Server:Urls"];

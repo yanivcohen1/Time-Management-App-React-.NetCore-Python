@@ -11,7 +11,7 @@ Minimal ASP.NET Core Web API demonstrating JWT-based authentication with role-pr
 ## Restore dependencies
 
 ```pwsh
-cd d:\Temp\netCoreAuth_Xunit
+cd d:\Temp\Time-Management-App\backend_netCore_service
 dotnet restore
 ```
 
@@ -20,7 +20,7 @@ dotnet restore
 Ensure your chosen database is running and create the database, then apply migrations (for MySQL):
 
 ```pwsh
-cd d:\Temp\netCoreAuth_Xunit\AuthApi
+cd d:\Temp\Time-Management-App\backend_netCore_service\AuthApi
 dotnet ef database update
 ```
 
@@ -31,32 +31,50 @@ For MongoDB, no migrations are needed as collections are created dynamically.
 ## Run the API locally
 
 ```pwsh
-cd d:\Temp\netCoreAuth_Xunit\AuthApi
-dotnet run
+cd d:\Temp\Time-Management-App\backend_netCore_service\AuthApi
+dotnet run -- --env dev
 ```
 
-By default, the application listens on URLs configured in `appsettings.yaml`:
-- `http://localhost:5000`
-- `https://localhost:5001`
+For production mode:
+
+```pwsh
+dotnet run -- --env prod
+```
+
+By default, the application listens on URLs configured in `dev.appsettings.yaml` (for dev) or `prod.appsettings.yaml` (for prod):
+- Dev: `http://localhost:5000`, `https://localhost:5001`
+- Prod: `https://localhost:5001`
 
 ### Configure the server URLs
 
-Update `AuthApi/appsettings.yaml` under the `Server:Urls` section. The URLs listed here are used when running via `dotnet run` or Visual Studio launch profiles.
+Update `AuthApi/dev.appsettings.yaml` or `AuthApi/prod.appsettings.yaml` under the `Server:Urls` section. The URLs listed here are used when running via `dotnet run` or Visual Studio launch profiles.
 
-Example:
+Example for dev:
 ```yaml
 Server:
   Urls: "http://localhost:5000;https://localhost:5001"
 ```
 
+Example for prod:
+```yaml
+Server:
+  Urls: "https://localhost:5001"
+```
+
 ### Configure CORS allowed origins
 
-Update `AuthApi/appsettings.yaml` under the `Cors:AllowedOrigins` section to specify allowed frontend origins.
+Update `AuthApi/dev.appsettings.yaml` or `AuthApi/prod.appsettings.yaml` under the `Cors:AllowedOrigins` section to specify allowed frontend origins.
 
-Example:
+Example for dev:
 ```yaml
 Cors:
   AllowedOrigins: "http://localhost:3000,http://localhost:3001"
+```
+
+Example for prod:
+```yaml
+Cors:
+  AllowedOrigins: "https://prod-frontend.com"
 ```
 
 ### Configure users, passwords, and roles
@@ -75,19 +93,19 @@ To add, remove, or change users, modify the `OnModelCreating` method in `AuthDbC
 
 ### Configure JWT settings
 
-Edit `AuthApi/appsettings.yaml` under the `Jwt` section:
+Edit `AuthApi/dev.appsettings.yaml` or `AuthApi/prod.appsettings.yaml` under the `Jwt` section:
 - `Key`: symmetric signing key (keep at least 32 chars; store securely in production)
 - `Issuer` / `Audience`: expected token issuer and audience
 
 ### Configure database provider
 
-Edit `AuthApi/appsettings.yaml` under the `Database:Provider` section:
+Edit `AuthApi/dev.appsettings.yaml` or `AuthApi/prod.appsettings.yaml` under the `Database:Provider` section:
 - Set to `"MySQL"` for MySQL database
 - Set to `"MongoDB"` for MongoDB database
 
 ### Configure connection strings
 
-Edit `AuthApi/appsettings.yaml` under the `ConnectionStrings` section to configure the database connection.
+Edit `AuthApi/dev.appsettings.yaml` or `AuthApi/prod.appsettings.yaml` under the `ConnectionStrings` section to configure the database connection.
 
 For MySQL (default):
 ```yaml
@@ -121,7 +139,7 @@ The OpenAPI JSON specification is available at: `http://localhost:5000/openapi/v
 The tests build an in-memory server and exercise the authentication flow end-to-end.
 
 ```pwsh
-cd d:\Temp\netCoreAuth_Xunit
+cd d:\Temp\Time-Management-App\backend_netCore_service
 dotnet test
 ```
 
@@ -136,6 +154,6 @@ dotnet test
 
 - Users are stored in the configured database (MySQL or MongoDB) with proper password hashing using ASP.NET Core Identity (for MySQL) or custom hashing (for MongoDB).
 - Store secrets (such as JWT keys and database passwords) outside of source control for real deployments (user-secrets, environment variables, vaults, etc.).
-- Configuration is read from `appsettings.yaml` for flexibility and readability, including server URLs, CORS origins, and database settings.
+- Configuration is read from `dev.appsettings.yaml` or `prod.appsettings.yaml` for flexibility and readability, including server URLs, CORS origins, and database settings.
 - Database migrations are applied automatically on startup for MySQL. MongoDB collections are created dynamically.
 - In development environment, HTTPS redirection is disabled to allow HTTP requests for easier testing with CORS.
