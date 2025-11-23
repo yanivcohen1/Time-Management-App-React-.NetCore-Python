@@ -27,7 +27,7 @@ A modern React application built with TypeScript and Vite, featuring a todo list
   - `animation/`: CSS animation styles (fade.css, slide-right.css)
   - `assets/`: Static assets
   - `__mocks__/`: Test mocks (axios.js)
-- `public/`: Public assets and configuration files (config.yaml, index.html, manifest.json, robots.txt)
+- `public/`: Public assets and configuration files (config.dev.yaml, config.prod.yaml, index.html, manifest.json, robots.txt)
 - `build/`: Production build output
 
 ## Available Scripts
@@ -37,7 +37,7 @@ In the project directory, you can run:
 ### `pnpm dev`
 
 Runs the app in the development mode.\
-The server port and backend URL are loaded from `public/config.yaml` (default port: 3001).\
+The server port and backend URL are loaded from `public/config.dev.yaml` (default port: 3001, backend: http://localhost:5000).\
 Open [http://localhost:3001](http://localhost:3001) to view it in the browser.
 
 The page will reload if you make edits.\
@@ -62,14 +62,17 @@ Runs ESLint to check for code quality issues and potential errors in the codebas
 
 ### `pnpm preview`
 
-Serves the production build locally for testing and previewing the app before deployment.
+Serves the production build locally for testing and previewing the app before deployment.\
+Uses `public/config.prod.yaml` for configuration (backend: https://time-management-api.com).
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 
 ## Configuration
 
-The app can be configured using `public/config.yaml`:
+The app can be configured using `public/config.dev.yaml` for development and `public/config.prod.yaml` for production:
+
+### Development Configuration (`config.dev.yaml`):
 
 ```yaml
 port: 3001
@@ -77,8 +80,16 @@ backend:
   url: http://localhost:5000
 ```
 
+### Production Configuration (`config.prod.yaml`):
+
+```yaml
+port: 3001
+backend:
+  url: https://time-management-api.com
+```
+
 - `port`: The port on which the React development server runs
-- `backend.url`: The base URL for API calls (loaded dynamically at runtime)
+- `backend.url`: The base URL for API calls (loaded dynamically at runtime based on NODE_ENV)
 
 ## Learn More
 
