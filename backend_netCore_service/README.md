@@ -99,6 +99,7 @@ To add, remove, or change users, modify the `OnModelCreating` method in `AuthDbC
 Edit `AuthApi/dev.appsettings.yaml` or `AuthApi/prod.appsettings.yaml` under the `Jwt` section:
 - `Key`: symmetric signing key (keep at least 32 chars; store securely in production)
 - `Issuer` / `Audience`: expected token issuer and audience
+- `ExpirationMinutes`: token expiration time in minutes (default: 60)
 
 ### Configure database provider
 
