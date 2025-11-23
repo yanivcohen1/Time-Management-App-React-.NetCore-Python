@@ -13,11 +13,12 @@ The solution consists of three main components:
 ## 🚀 Technologies
 
 ### Frontend (`/frontend`)
-*   **Framework**: React 18 + TypeScript + Vite + Playwright
+*   **Framework**: React 18 + TypeScript + Vite
 *   **UI Libraries**: Material UI (MUI) v5 + PrimeReact v10
 *   **Routing**: React Router v6 (Nested Routes)
 *   **State Management**: Context API
 *   **Testing**: Vitest + React Testing Library
+*   **E2E Testing** Playwright
 *   **Key Features**:
     *   Dark/Light Theme switching (synced between MUI and PrimeReact)
     *   Responsive Sidebar Drawer (Desktop/Mobile layouts)
