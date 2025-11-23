@@ -13,7 +13,7 @@ The solution consists of three main components:
 ## 🚀 Technologies
 
 ### Frontend (`/frontend`)
-*   **Framework**: React 18 + TypeScript + Vite
+*   **Framework**: React 18 + TypeScript + Vite + Playwright
 *   **UI Libraries**: Material UI (MUI) v5 + PrimeReact v10
 *   **Routing**: React Router v6 (Nested Routes)
 *   **State Management**: Context API
