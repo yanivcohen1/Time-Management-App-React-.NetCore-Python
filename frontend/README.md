@@ -45,8 +45,19 @@ You will also see any lint errors in the console.
 
 ### `pnpm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Launches the test runner once.\
+
+### `pnpm test:watch`
+
+Runs Vitest in watch mode for continuous testing during development.\
+
+### `pnpm coverage`
+
+Generates a coverage report using Vitest.\
+
+### `pnpm test:e2e`
+
+Runs end-to-end tests using Playwright.\
 
 ### `pnpm build`
 
