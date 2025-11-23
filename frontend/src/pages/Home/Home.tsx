@@ -208,7 +208,12 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
           alignItems: 'center',
           gap: 2,
           py: 1,
-          px: 2
+          px: 2,
+          bgcolor: isDarkTheme ? 'grey.800' : undefined,
+          color: isDarkTheme ? '#fff' : undefined,
+          '& .MuiAlert-icon': {
+            color: isDarkTheme ? '#fff' : undefined
+          }
         }}
         action={
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -241,7 +246,12 @@ const Home: React.FC<HomeProps> = ({ onToggleCookieBanner, isCookieBannerVisible
               boxShadow: 1,
               display: 'flex',
               alignItems: 'center',
-              gap: 2
+              gap: 2,
+              bgcolor: isDarkTheme ? 'grey.800' : undefined,
+              color: isDarkTheme ? '#fff' : undefined,
+              '& .MuiAlert-icon': {
+                color: isDarkTheme ? '#fff' : undefined
+              }
             }}
             action={
               <Box sx={{ display: 'flex', gap: 1 }}>
