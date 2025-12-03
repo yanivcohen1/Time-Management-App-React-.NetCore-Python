@@ -66,3 +66,24 @@ Each service has its own detailed setup instructions. Please refer to the respec
 *   **Theming**: Implemented a synchronized Dark/Light mode across all UI components.
 *   **Navigation**: Enhanced sidebar navigation with active state logic and breadcrumbs.
 *   **Routing**: Improved deep-linking capabilities for "About Me" and other nested pages.
+
+
+### Main Page
+
+<img width="1860" height="1436" alt="image" src="https://github.com/user-attachments/assets/85324d45-81f6-486f-8494-d3fbc2819173" />
+
+### Track Status
+
+<img width="1928" height="1828" alt="image" src="https://github.com/user-attachments/assets/4555a96c-3877-4af7-b744-ac5b9718f193" />
+
+### Jira Scram page
+
+<img width="2345" height="1261" alt="image" src="https://github.com/user-attachments/assets/7000ec17-fb7e-40df-a3ed-2a83eb90b133" />
+
+### Ligth mode
+
+<img width="1888" height="1437" alt="image" src="https://github.com/user-attachments/assets/8a7055c7-8d97-430d-89d2-ed257a664e38" />
+
+### Mobile mode
+
+<img width="1367" height="1459" alt="image" src="https://github.com/user-attachments/assets/c07457d6-f6a9-4b46-9338-9c38f1f8aead" />
