@@ -71,21 +71,20 @@ Each service has its own detailed setup instructions. Please refer to the respec
 
 ## Main Page
 
-<img width="2096" height="1776" alt="image" src="https://github.com/user-attachments/assets/101f036a-75f9-4030-abbc-d318e95c9f9a" />
+<img width="2114" height="1471" alt="image" src="https://github.com/user-attachments/assets/5f2518bf-22e3-4556-b700-197930a7c414" />
 
 ## Track Status
 
-<img width="2497" height="1736" alt="image" src="https://github.com/user-attachments/assets/739521bd-d39a-4cfd-8979-2d03f58a5c1d" />
+<img width="2110" height="1436" alt="image" src="https://github.com/user-attachments/assets/8815bc9b-d490-465f-98e3-420887c7fec9" />
 
-## Agile Task page
+## Board page
 
-<img width="2584" height="1167" alt="image" src="https://github.com/user-attachments/assets/f0223bac-677c-4b77-9a94-c21d820ea083" />
+<img width="2089" height="1387" alt="image" src="https://github.com/user-attachments/assets/547d7f14-a20c-4ea7-abe0-4866011828ef" />
 
 ## Ligth mode
 
-<img width="2096" height="1774" alt="image" src="https://github.com/user-attachments/assets/382489dd-7a57-4a19-8080-1fafce36ca66" />
+<img width="2126" height="1447" alt="image" src="https://github.com/user-attachments/assets/cc75d999-9c00-42d4-b54d-b8ad284c0cfa" />
 
 ## Mobile mode
 
-<img width="1356" height="1785" alt="image" src="https://github.com/user-attachments/assets/ad03fc9b-02c3-45b5-8140-3ad96c7c98b3" />
-
+<img width="1118" height="1351" alt="image" src="https://github.com/user-attachments/assets/2ade3bf7-80fa-46b7-8980-40e415415040" />
