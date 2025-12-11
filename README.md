@@ -36,7 +36,7 @@ The solution consists of three main components:
 
 ### Backend - Python (`/backend_python_service`)
 *   **Framework**: FastAPI
-*   **Database**: MongoDB (via Beanie ODM / Motor)
+*   **Database**: MongoDB (via Motor(Async MongoDB), Beanie ODM)
 *   **Authentication**: JWT
 *   Configuration: YAML-based settings
 *   **Testing**: Pytest + TestClient
